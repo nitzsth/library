@@ -11,4 +11,8 @@
 |
 */
 
-Route::view('/', 'dashboard')->name('dashboard');
+Auth::routes(['register' => false]);
+
+Route::middleware('auth')->group(function() {
+	Route::view('/', 'dashboard')->name('dashboard');
+});
