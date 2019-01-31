@@ -4,4 +4,9 @@
 			<i class="fa fa-dashboard"></i> <span>Dashboard</span>
 		</a>
 	</li>
+	<li>
+		<a href="{{ route('users.create') }}">
+			<i class="fa fa-users"></i> <span>Users</span>
+		</a>
+	</li>
 </ul>

@@ -13,4 +13,9 @@ class Constant {
 	 */
 	const ADMIN = 'admin';
 	const STUDENT = 'student';
+
+	/**
+	 * Directories related constants
+	 */
+	const DIR_AVATAR = 'avatars';
 }
