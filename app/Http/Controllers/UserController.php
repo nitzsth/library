@@ -20,6 +20,11 @@ class UserController extends Controller
         return view('users.index', compact('users'));
     }
 
+    /**
+     * Show the form for creating a new user.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         $user = new User();
@@ -46,5 +51,16 @@ class UserController extends Controller
         User::create($data);
 
         return redirect()->route('users.index');
+    }
+
+    /**
+     * Display the specified user.
+     *
+     * @param  \App\Model\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function show(User $user)
+    {
+        return view('users.show', compact('user'));
     }
 }

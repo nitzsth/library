@@ -32,7 +32,7 @@
       </tr>
       @empty
       <tr>
-        <td colspan="4">No users found.</td>
+        <td colspan="4">No users found.></td>
       </tr>
       @endforelse
     </table>
