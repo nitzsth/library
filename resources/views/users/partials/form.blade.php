@@ -1,5 +1,10 @@
-<form  method="POST" enctype="multipart/form-data" action="{{ route('users.store') }}"  class="form" role="form" autocomplete="off">
+<form  method="POST" enctype="multipart/form-data" action="{{ $action }}"  class="form" role="form" autocomplete="off">
     @csrf
+
+    @if($method === 'PUT')
+        @method('PUT')
+    @endif
+
     <div class="box-body">
         <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
             <label>Full Name</label>
@@ -23,7 +28,7 @@
 
         <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
             <label>Password</label>
-            <input type="password" class="form-control" placeholder="Password" name="password" required>
+            <input type="password" class="form-control" placeholder="Password" name="password">
             @if ($errors->has('password'))
             <span class="help-block">
                 <strong>{{ $errors->first('password') }}</strong>
@@ -31,15 +36,17 @@
             @endif
         </div>
 
-        <div class="form-group">
-            <label>Avatar</label>
-            <input type="file" name="avatar" accept="image/*">
-            @if ($errors->has('avatar'))
-            <span class="help-block">
-                <strong>{{ $errors->first('avatar') }}</strong>
-            </span>
-            @endif
-        </div>
+        @if ($method === 'POST')
+            <div class="form-group">
+                <label>Avatar</label>
+                <input type="file" name="avatar" accept="image/*">
+                @if ($errors->has('avatar'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('avatar') }}</strong>
+                    </span>
+                @endif
+            </div>
+        @endif
 
         <div class="form-group">
             <button type="submit" class="btn btn-primary" name="submit">Submit</button>

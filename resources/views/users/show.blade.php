@@ -21,6 +21,7 @@
 			<div class="box box-primary">
 				<div class="box-body box-profile">
 					<img class="profile-user-img img-responsive img-circle" src="{{ $user->avatar ?: asset('img/avatar-placeholder.png') }}" alt="{{ $user->name }}" style="height: 100px">
+						<a class="pull-right" href="{{ route('users.edit', $user) }}"><i class="fa fa-edit"></i></a>
 					<h3 class="profile-username text-center">{{ $user->name }}</h3>
 					<ul class="list-group list-group-unbordered">
 						<li class="list-group-item">

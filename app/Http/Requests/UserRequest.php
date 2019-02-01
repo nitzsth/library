@@ -26,14 +26,17 @@ class UserRequest extends FormRequest
         $uniqueEmail = 'users';
 
         if ($this->method() === 'PUT') {
+            $password = 'nullable';
             $uniqueEmail .= ',email,' . request('user')->id;
+        } else {
+            $password = 'required';
         }
 
         return [
             'avatar' => 'nullable|image|max:1000',
             'name' => 'required|string|min:3|max:50',
             'email' => "required|unique:$uniqueEmail",
-            'password' => 'required|string|min:6|max:25',
+            'password' => "$password|string|min:6|max:25",
         ];
     }
 }
