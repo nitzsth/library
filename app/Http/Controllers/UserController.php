@@ -13,6 +13,13 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function index()
+    {
+        $users = User::orderBy('name')->paginate('15');
+        
+        return view('users.index', compact('users'));
+    }
+
     public function create()
     {
         $user = new User();
@@ -36,8 +43,8 @@ class UserController extends Controller
             $data['avatar'] = "/storage/$path";
         }
 
-        $user = User::create($data);
+        User::create($data);
 
-        return redirect()->route('users.create');
+        return redirect()->route('users.index');
     }
 }

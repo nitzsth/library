@@ -5,7 +5,7 @@
 		</a>
 	</li>
 	<li>
-		<a href="{{ route('users.create') }}">
+		<a href="{{ route('users.index') }}">
 			<i class="fa fa-users"></i> <span>Users</span>
 		</a>
 	</li>
