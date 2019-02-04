@@ -96,4 +96,17 @@ class UserController extends Controller
 
         return redirect()->route('users.show', $user);
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Model\User  $user
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return redirect('users');
+
+    }
 }

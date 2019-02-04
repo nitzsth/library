@@ -44,13 +44,13 @@
                       			Edit
                     		</button>
                     	</a>
-                  		<a href="{{ route('users.destroy', $user) }}">
+						<a href="{{ route('users.destroy', $user) }}" onclick="event.preventDefault();document.getElementById('delete-form').submit();">
                     		<button type="button" class="btn btn-danger">
                       			Delete
                     		</button>
                     	</a>
                     </div>
-					<form method="POST" action="{{ route('users.destroy', $user) }}">
+					<form id="delete-form" method="POST" action="{{ route('users.destroy', $user) }}" style="display: none;">
 						@csrf
 						@method('DELETE')
 					</form>
