@@ -63,6 +63,7 @@ class UserController extends Controller
     {
         return view('users.show', compact('user'));
     }
+
     /**
      * Show the form for editing the specified user.
      *

@@ -21,7 +21,6 @@
 			<div class="box box-primary">
 				<div class="box-body box-profile">
 					<img class="profile-user-img img-responsive img-circle" src="{{ $user->avatar ?: asset('img/avatar-placeholder.png') }}" alt="{{ $user->name }}" style="height: 100px">
-						<a class="pull-right" href="{{ route('users.edit', $user) }}"><i class="fa fa-edit"></i></a>
 					<h3 class="profile-username text-center">{{ $user->name }}</h3>
 					<ul class="list-group list-group-unbordered">
 						<li class="list-group-item">
@@ -34,6 +33,27 @@
 							<b>Member since</b><span class="pull-right">{{ date('d F, Y', strtotime($user->created_at)) }}</span>
 						</li>
 					</ul>
+					<div class="btn-group text-center">
+                  		<a href="javascript:">
+                    		<button type="button" class="btn btn-warning">
+                      			Upload
+                    		</button>
+                    	</a>
+                  		<a href="{{ route('users.edit', $user) }}">
+                    		<button type="button" class="btn btn-primary">
+                      			Edit
+                    		</button>
+                    	</a>
+                  		<a href="{{ route('users.destroy', $user) }}">
+                    		<button type="button" class="btn btn-danger">
+                      			Delete
+                    		</button>
+                    	</a>
+                    </div>
+					<form method="POST" action="{{ route('users.destroy', $user) }}">
+						@csrf
+						@method('DELETE')
+					</form>
 				</div>
 			</div>
 		</div>

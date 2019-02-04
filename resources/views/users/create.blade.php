@@ -19,7 +19,7 @@
     <div class="row text">
         <div class="col-md-6 col-md-offset-3">
             <div class="box box-primary">
-                @include('users.partials.form')
+                @include('users.partials.form', ['method' => 'POST', 'action' => route('users.store')])
             </div>
         </div>
     </div>
