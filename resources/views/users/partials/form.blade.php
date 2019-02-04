@@ -37,7 +37,7 @@
         </div>
 
         @if ($method === 'POST')
-            <div class="form-group">
+            <div class="form-group {{ $errors->has('avatar') ? 'has-error' : '' }}">
                 <label>Avatar</label>
                 <input type="file" name="avatar" accept="image/*">
                 @if ($errors->has('avatar'))

@@ -34,9 +34,9 @@
 						</li>
 					</ul>
 					<div class="btn-group text-center">
-                  		<a href="javascript:">
-                    		<button type="button" class="btn btn-warning">
-                      			Upload
+                  		<a href="{{ route('users.upload', $user) }}">
+                    		<button type="button" class="btn btn-warning" onclick="event.preventDefault();document.getElementById('avatar').click();">
+                      			Upload Avatar
                     		</button>
                     	</a>
                   		<a href="{{ route('users.edit', $user) }}">
@@ -50,13 +50,25 @@
                     		</button>
                     	</a>
                     </div>
-					<form id="delete-form" method="POST" action="{{ route('users.destroy', $user) }}" style="display: none;">
-						@csrf
-						@method('DELETE')
-					</form>
+                    <p class="text-danger">
+		                @if ($errors->has('avatar'))
+	                        <strong>{{ $errors->first('avatar') }}</strong>
+		                @endif
+	                </p>
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<div style="display: none;">
+	    <form id="upload-form" method="POST" enctype="multipart/form-data" action="{{ route('users.upload', $user) }}">
+			@csrf
+	        <input type="file" name="avatar" id="avatar" accept="image/*" onchange="event.preventDefault();document.getElementById('upload-form').submit();">
+		</form>
+		<form id="delete-form" method="POST" action="{{ route('users.destroy', $user) }}">
+			@csrf
+			@method('DELETE')
+		</form>
 	</div>
 </section>
 @endsection

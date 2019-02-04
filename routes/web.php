@@ -16,5 +16,6 @@ Auth::routes(['register' => false]);
 Route::middleware('auth')->group(function() {
 	Route::view('/', 'dashboard')->name('dashboard');
 
+	Route::post('users/{user}/upload', 'UserController@upload')->name('users.upload');
 	Route::resource('users', 'UserController');
 });

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Helpers\Constant;
 use App\Models\User;
 use App\Http\Requests\UserRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -108,5 +110,27 @@ class UserController extends Controller
         $user->delete();
         return redirect('users');
 
+    }
+
+    /**
+     * Upload the specified image and replace existing image from storage if any.
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @param  \App\Model\User  $user
+     * q@return \Illuminate\Http\RedirectResponse
+     */
+    public function upload(Request $request, User $user)
+    {
+        $this->validate($request, ['avatar' => 'required|image|max:1000']);
+
+        $path = $request->file('avatar')->store(Constant::DIR_AVATAR);
+
+        if ($user->avatar) {
+            Storage::delete(str_replace("/storage/", "", $user->avatar));
+        }
+
+        $user->update(['avatar' => "/storage/$path"]);
+
+        return redirect()->route('users.show', $user);
     }
 }
