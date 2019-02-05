@@ -36,6 +36,23 @@
             @endif
         </div>
 
+        <div class="form-group {{ $errors->has('role') ? 'has-error' : '' }}">
+            <label>Role</label>
+            <select class="form-control select2" style="width: 100%;" name="role">
+                <option value="{{ App\Helpers\Constant::STUDENT }}" @if($user->role === App\Helpers\Constant::STUDENT) selected @endif>
+                    {{ ucwords(App\Helpers\Constant::STUDENT) }}
+                </option>
+                <option value="{{ App\Helpers\Constant::ADMIN }}" @if($user->role === App\Helpers\Constant::ADMIN) selected @endif @if(!$user->role) disabled @endif>
+                    {{ ucwords(App\Helpers\Constant::ADMIN) }}
+                </option>
+            </select>
+            @if ($errors->has('role'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('role') }}</strong>
+                </span>
+            @endif
+        </div>
+
         @if ($method === 'POST')
             <div class="form-group {{ $errors->has('avatar') ? 'has-error' : '' }}">
                 <label>Avatar</label>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Helpers\Constant;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserRequest extends FormRequest
@@ -24,6 +25,7 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         $uniqueEmail = 'users';
+        $roles = implode(',', Constant::getRoles());
 
         if ($this->method() === 'PUT') {
             $password = 'nullable';
@@ -37,6 +39,7 @@ class UserRequest extends FormRequest
             'name' => 'required|string|min:3|max:50',
             'email' => "required|unique:$uniqueEmail",
             'password' => "$password|string|min:6|max:25",
+            'role' => "required|string|in:$roles",
         ];
     }
 }

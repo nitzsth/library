@@ -18,4 +18,12 @@ class Constant {
 	 * Directories related constants
 	 */
 	const DIR_AVATAR = 'avatars';
+
+	public static function getRoles(): array
+	{
+		return [
+			self::ADMIN,
+			self::STUDENT,
+		];
+	}
 }
