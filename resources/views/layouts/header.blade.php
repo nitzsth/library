@@ -29,6 +29,11 @@
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
                 </div>
+                <div class="pull-left">
+                  <a href="{{ route('users.show', auth()->id()) }}">
+                    <button class="btn btn-default">Profile</button>
+                  </a>
+                </div>
               </li>
             </ul>
           </li>
