@@ -9,4 +9,9 @@
 			<i class="fa fa-users"></i> <span>Users</span>
 		</a>
 	</li>
+	<li>
+		<a href="{{ route('authors.index') }}">
+			<i class="fa fa-pencil"></i> <span>Authors</span>
+		</a>
+	</li>
 </ul>

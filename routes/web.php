@@ -14,6 +14,9 @@
 Auth::routes(['register' => false, 'verify' => true]);
 
 Route::middleware(['auth', 'verified'])->group(function() {
+	Route::post('authors/{author}/upload', 'AuthorController@upload')->name('authors.upload');
+	Route::resource('authors', 'AuthorController');
+
 	Route::view('/', 'dashboard')->name('dashboard');
 
 	Route::post('users/{user}/upload', 'UserController@upload')->name('users.upload');
