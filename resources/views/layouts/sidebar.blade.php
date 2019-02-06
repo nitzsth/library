@@ -14,4 +14,9 @@
 			<i class="fa fa-pencil"></i> <span>Authors</span>
 		</a>
 	</li>
+	<li>
+		<a href="{{ route('categories.index') }}">
+			<i class="fa fa-cubes"></i> <span>Categories</span>
+		</a>
+	</li>
 </ul>
