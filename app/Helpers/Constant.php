@@ -15,6 +15,12 @@ class Constant {
 	const STUDENT = 'student';
 
 	/**
+	 * User status
+	 */
+	const BLOCKED = 'blocked';
+	const VERIFIED = 'verified';
+
+	/**
 	 * Directories related constants
 	 */
 	const DIR_AVATAR = 'avatars';

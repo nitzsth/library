@@ -17,7 +17,7 @@
 @section('content')
 <section class="content">
 	<div class="row">
-		<div class="col-md-3">
+		<div class="col-md-4">
 			<div class="box box-primary">
 				<div class="box-body box-profile">
 					<img class="profile-user-img img-responsive img-circle" src="{{ $user->avatar ?: asset('img/avatar-placeholder.png') }}" alt="{{ $user->name }}" style="height: 100px">
@@ -28,6 +28,9 @@
 						</li>
 						<li class="list-group-item">
 							<b>Role</b><span class="pull-right">{{ ucwords($user->role) }}</span>
+						</li>
+						<li class="list-group-item">
+							<b>Status</b><span class="pull-right">{{ $user->hasVerifiedEmail() ? ucwords($user->status) : 'Unverified' }}</span>
 						</li>
 						<li class="list-group-item">
 							<b>Member since</b><span class="pull-right">{{ date('d F, Y', strtotime($user->created_at)) }}</span>

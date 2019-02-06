@@ -51,6 +51,7 @@ class UserController extends Controller
         }
 
         $user = User::create($data);
+        $user->sendEmailVerificationNotification();
 
         return redirect()->route('users.show', $user);
     }

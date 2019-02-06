@@ -11,9 +11,9 @@
 |
 */
 
-Auth::routes(['register' => false]);
+Auth::routes(['register' => false, 'verify' => true]);
 
-Route::middleware('auth')->group(function() {
+Route::middleware(['auth', 'verified'])->group(function() {
 	Route::view('/', 'dashboard')->name('dashboard');
 
 	Route::post('users/{user}/upload', 'UserController@upload')->name('users.upload');
