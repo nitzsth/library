@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Constant;
 use App\Models\Book;
+use App\Models\Author;
 use App\Http\Requests\BookRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -30,8 +31,9 @@ class BookController extends Controller
     public function create()
     {
         $book = new Book;
+        $authors = Author::all();
 
-        return view('books.create', compact('book'));
+        return view('books.create', compact('book', 'authors'));
     }
 
     /**
@@ -42,14 +44,13 @@ class BookController extends Controller
      */
     public function store(BookRequest $request)
     {
-        $data = $request->all();
-
         if ($request->hasFile('avatar')) {
             $path = $request->file('avatar')->store(Constant::DIR_AVATAR);
             $data['avatar'] = "/storage/$path";
         }
 
-        $book = Book::create($data);
+        $book = Book::create($request->all());
+        $book->authors()->sync($request->author_id);
 
         return redirect()->route('books.show', $book);
     }
@@ -73,7 +74,8 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        return view('books.edit', compact('book'));
+        $authors = Author::all();
+        return view('books.edit', compact('book', 'authors'));
     }
 
     /**
@@ -85,7 +87,13 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, Book $book)
     {
-        $book->update(array_except($request->all(), ['avatar']));
+        $data = $request->all();
+        if(isset($data['isbn'])){
+            unset($data['isbn']);
+        }
+
+        $book->update(array_except($data, ['avatar']));
+        $book->authors()->sync($request->author_id);
 
         return redirect()->route('books.show', $book);
     }

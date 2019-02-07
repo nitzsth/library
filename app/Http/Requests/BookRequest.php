@@ -36,6 +36,8 @@ class BookRequest extends FormRequest
             'pages' => 'required|integer|min:1',
             'edition' => 'required|string',
             'publisher' =>'required|string|min:3',
+            'author_id' => 'required',
+            'author_*' => 'required|integer|exists:authors,id',
             'description' => 'required',
 
         ];

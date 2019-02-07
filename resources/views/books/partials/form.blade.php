@@ -26,6 +26,18 @@
             @endif
         </div>
 
+        <div class="form-group">
+            <label>Book Author(s)</label>
+            <div>
+                <select  name='author_id[]' multiple class="form-control">
+                    @foreach($authors as $author)
+                        <option value="{{ $author->id }}" @if(in_array($author->id, $book->authors->pluck('id')->toArray())) selected @endif >
+                        {{ $author->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
         <div class="form-group {{ $errors->has('pages') ? 'has-error' : '' }}">
             <label>Number of Pages</label>
             <input type="integer" class="form-control" placeholder="Isbn" name="pages" value="{{ old('pages') ?? $book->pages }}" required>
@@ -70,7 +82,7 @@
 
         <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
             <label>Book Description</label>
-            <textarea class="form-control" rows="9" placeholder="Enter Book's nice description" name="description" required>{{ old('description') ?? $book->description }}
+            <textarea class="form-control" rows="7" placeholder="Enter Book's nice description" name="description" required>{{ old('description') ?? $book->description }}
             </textarea>
             @if ($errors->has('description'))
             <span class="help-block">
