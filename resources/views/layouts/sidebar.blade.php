@@ -10,6 +10,11 @@
 		</a>
 	</li>
 	<li>
+		<a href="{{ route('books.index') }}">
+			<i class="fa fa-book"></i> <span>Books</span>
+		</a>
+	</li>
+	<li>
 		<a href="{{ route('authors.index') }}">
 			<i class="fa fa-pencil"></i> <span>Authors</span>
 		</a>

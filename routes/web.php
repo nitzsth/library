@@ -17,6 +17,9 @@ Route::middleware(['auth', 'verified'])->group(function() {
 	Route::post('authors/{author}/upload', 'AuthorController@upload')->name('authors.upload');
 	Route::resource('authors', 'AuthorController');
 
+	Route::post('books/{book}/upload', 'BookController@upload')->name('books.upload');
+	Route::resource('books', 'BookController');
+
 	Route::resource('categories', 'CategoryController');
 
 	Route::view('/', 'dashboard')->name('dashboard');
