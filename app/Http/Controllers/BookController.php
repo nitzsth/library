@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\Constant;
 use App\Models\Book;
 use App\Models\Author;
+use App\Models\Category;
 use App\Http\Requests\BookRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -31,9 +32,10 @@ class BookController extends Controller
     public function create()
     {
         $book = new Book;
-        $authors = Author::all();
+        $authors = Author::orderBy('name')->get();
+        $categories = Category::orderBy('name')->get();
 
-        return view('books.create', compact('book', 'authors'));
+        return view('books.create', compact('book', 'authors', 'categories'));
     }
 
     /**
@@ -44,13 +46,16 @@ class BookController extends Controller
      */
     public function store(BookRequest $request)
     {
+        $data = $request->all();
         if ($request->hasFile('avatar')) {
             $path = $request->file('avatar')->store(Constant::DIR_AVATAR);
             $data['avatar'] = "/storage/$path";
         }
 
-        $book = Book::create($request->all());
-        $book->authors()->sync($request->author_id);
+        $book = Book::create($data);
+        $book->authors()->attach($request->author_id);
+        $book->categories()->attach($request->category_id);
+
 
         return redirect()->route('books.show', $book);
     }
@@ -74,8 +79,10 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        $authors = Author::all();
-        return view('books.edit', compact('book', 'authors'));
+        $authors = Author::orderBy('name')->get();
+        $categories = Category::orderBy('name')->get();
+
+        return view('books.edit', compact('book', 'authors', 'categories'));
     }
 
     /**
@@ -94,6 +101,7 @@ class BookController extends Controller
 
         $book->update(array_except($data, ['avatar']));
         $book->authors()->sync($request->author_id);
+        $book->categories()->sync($request->category_id);
 
         return redirect()->route('books.show', $book);
     }

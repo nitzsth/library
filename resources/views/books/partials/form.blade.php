@@ -7,12 +7,12 @@
 
     <div class="box-body">
         <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-            <label>Full Name</label>
-            <input type="text" class="form-control" placeholder="Enter Full Name" value="{{ old('name') ?? $book->name }}" name="name" required>
+            <label>Book Name</label>
+            <input type="text" class="form-control" placeholder="Enter Book Name" value="{{ old('name') ?? $book->name }}" name="name" required>
             @if ($errors->has('name'))
-            <span class="help-block">
-                <strong>{{ $errors->first('name') }}</strong>
-            </span>
+                <span class="help-block">
+                    <strong>{{ $errors->first('name') }}</strong>
+                </span>
             @endif
         </div>
 
@@ -20,9 +20,9 @@
             <label>Book ISBN</label>
             <input type="text" class="form-control" placeholder="Enter ISBN" value="{{ old('isbn') ?? $book->isbn }}" name="isbn" required>
             @if ($errors->has('isbn'))
-            <span class="help-block">
-                <strong>{{ $errors->first('isbn') }}</strong>
-            </span>
+                <span class="help-block">
+                    <strong>{{ $errors->first('isbn') }}</strong>
+                </span>
             @endif
         </div>
 
@@ -32,7 +32,20 @@
                 <select  name='author_id[]' multiple class="form-control">
                     @foreach($authors as $author)
                         <option value="{{ $author->id }}" @if(in_array($author->id, $book->authors->pluck('id')->toArray())) selected @endif >
-                        {{ $author->name }}</option>
+                            {{ $author->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Categories</label>
+            <div>
+                <select  name='category_id[]' multiple class="form-control">
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" @if(in_array($category->id, $book->categories->pluck('id')->toArray())) selected @endif >
+                            {{ $category->name }}
+                        </option>
                     @endforeach
                 </select>
             </div>
@@ -42,9 +55,9 @@
             <label>Number of Pages</label>
             <input type="integer" class="form-control" placeholder="Isbn" name="pages" value="{{ old('pages') ?? $book->pages }}" required>
             @if ($errors->has('pages'))
-            <span class="help-block">
-                <strong>{{ $errors->first('pages') }}</strong>
-            </span>
+                <span class="help-block">
+                    <strong>{{ $errors->first('pages') }}</strong>
+                </span>
             @endif
         </div>
 
@@ -52,9 +65,9 @@
             <label>Edition</label>
             <input type="text" class="form-control" placeholder="Edition" name="edition" value="{{ old('edition') ?? $book->edition }}" required>
             @if ($errors->has('edition'))
-            <span class="help-block">
-                <strong>{{ $errors->first('edition') }}</strong>
-            </span>
+                <span class="help-block">
+                    <strong>{{ $errors->first('edition') }}</strong>
+                </span>
             @endif
         </div>
 
@@ -62,9 +75,9 @@
             <label>Publisher</label>
             <input type="text" class="form-control" placeholder="Publisher" name="publisher" value="{{ old('publisher') ?? $book->publisher }}" required>
             @if ($errors->has('publisher'))
-            <span class="help-block">
-                <strong>{{ $errors->first('publisher') }}</strong>
-            </span>
+                <span class="help-block">
+                    <strong>{{ $errors->first('publisher') }}</strong>
+                </span>
             @endif
         </div>
 
@@ -82,12 +95,11 @@
 
         <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
             <label>Book Description</label>
-            <textarea class="form-control" rows="7" placeholder="Enter Book's nice description" name="description" required>{{ old('description') ?? $book->description }}
-            </textarea>
+            <textarea class="form-control" rows="7" placeholder="Enter Book's nice description" name="description" required>{{ old('description') ?? $book->description }}</textarea>
             @if ($errors->has('description'))
-            <span class="help-block">
-                <strong>{{ $errors->first('description') }}</strong>
-            </span>
+                <span class="help-block">
+                    <strong>{{ $errors->first('description') }}</strong>
+                </span>
             @endif
         </div>
 

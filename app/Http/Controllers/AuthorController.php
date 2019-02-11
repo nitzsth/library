@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Constant;
 use App\Models\Author;
+use App\Models\Category;
 use App\Http\Requests\AuthorRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -30,8 +31,9 @@ class AuthorController extends Controller
     public function create()
     {
         $author = new Author;
+        $categories = Category::orderBy('name')->get();
 
-        return view('authors.create', compact('author'));
+        return view('authors.create', compact('author', 'categories'));
     }
 
     /**
@@ -50,6 +52,7 @@ class AuthorController extends Controller
         }
 
         $author = Author::create($data);
+        $book->categories()->attach($request->category_id);
 
         return redirect()->route('authors.show', $author);
     }
@@ -73,7 +76,9 @@ class AuthorController extends Controller
      */
     public function edit(Author $author)
     {
-        return view('authors.edit', compact('author'));
+        $categories = Category::orderBy('name')->get();
+
+        return view('authors.edit', compact('author', 'categories'));
     }
 
     /**
@@ -86,6 +91,7 @@ class AuthorController extends Controller
     public function update(AuthorRequest $request, Author $author)
     {
         $author->update(array_except($request->all(), ['avatar']));
+        $author->categories()->sync($request->category_id);
 
         return redirect()->route('authors.show', $author);
     }

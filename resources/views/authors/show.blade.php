@@ -59,6 +59,39 @@
 				</div>
 			</div>
 		</div>
+		<div class="col-md-8">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h4><i class="fa fa-book margin-r-5"></i>Book(s)</h4>
+				</div>
+				<div class="box-body row">
+					@forelse($author->books as $book)
+						<h4 class="col-md-3">
+							<a href="{{ route('books.show', $author) }}">{{ $book->name }}</a>
+						</h4>
+					@empty
+						<h5 class="col-md-8">No books found.</h5>
+					@endforelse
+				</div>
+			</div>
+
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h4><i class="fa fa-cubes margin-r-5"></i>Categories</h4>
+				</div>
+				<div class="box-body row">
+					@forelse($author->categories as $category)
+						<h4 class="col-md-3">
+							<a href="{{ route('categories.show', $category) }}">{{ $category->name }}</a>
+						</h4>
+					@empty
+						<h5 class="col-md-8">No categories found.</h5>
+					@endforelse
+				</div>
+			</div>
+		</div>
+
+
 	</div>
 
 	<div style="display: none;">

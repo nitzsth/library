@@ -35,17 +35,17 @@
           <th>Publisher</th>
         </tr>
         @forelse($books as $book)
-        <tr>
-          <td><a href="{{ route('books.show', $book)}}">{{ $book->name }} </a></td>
-          <td>{{ $book->isbn }}</td>
-          <td>{{ $book->pages }}</td>
-          <td>{{ $book->edition }}</td>
-          <td>{{ ucwords($book->publisher) }}</td>
-        </tr>
+          <tr>
+            <td><a href="{{ route('books.show', $book)}}">{{ $book->name }} </a></td>
+            <td>{{ $book->isbn }}</td>
+            <td>{{ $book->pages }}</td>
+            <td>{{ $book->edition }}</td>
+            <td>{{ ucwords($book->publisher) }}</td>
+          </tr>
         @empty
-        <tr>
-          <td colspan="5">No books found.</td>
-        </tr>
+          <tr>
+            <td colspan="5">No books found.</td>
+          </tr>
         @endforelse
       </table>
     </div>

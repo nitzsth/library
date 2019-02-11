@@ -55,7 +55,10 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return view('categories.show', compact('category'));
+        $books = $category->books()->orderBy('name')->paginate(10);
+        $authors = $category->authors()->orderBy('name')->paginate(40);
+
+        return view('categories.show', compact('category', 'authors', 'books'));
     }
 
     /**

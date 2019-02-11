@@ -79,8 +79,23 @@
 						<h4 class="col-md-3">
 							<a href="{{ route('authors.show', $author) }}">{{ $author->name }}</a>
 						</h4>
-						@empty
+					@empty
 						<h5 class="col-md-8">No authors found.</h5>
+					@endforelse
+				</div>
+			</div>
+
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h4><i class="fa fa-cubes margin-r-5"></i>Categories</h4>
+				</div>
+				<div class="box-body row">
+					@forelse($book->categories as $category)
+						<h4 class="col-md-3">
+							<a href="{{ route('categories.show', $category) }}">{{ $category->name }}</a>
+						</h4>
+					@empty
+						<h5 class="col-md-8">No categories found.</h5>
 					@endforelse
 				</div>
 			</div>

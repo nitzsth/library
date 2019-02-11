@@ -15,8 +15,23 @@ class Book extends Model
         'name', 'isbn', 'avatar', 'pages', 'description', 'edition', 'publisher',
     ];
 
+     /**
+     * Books can have many authors.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function authors()
     {
         return $this->belongsToMany(Author::class);
+    }
+
+    /**
+     * Books can have many categories.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function categories()
+    {
+        return $this->morphToMany(Category::class, 'entity', 'entity_category');
     }
 }
