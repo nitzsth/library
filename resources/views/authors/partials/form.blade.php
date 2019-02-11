@@ -63,7 +63,7 @@
 
         <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
             <label>Author Description</label>
-            <textarea class="form-control" placeholder="Enter Author's Description" name="description" required>{{ old('description') ?? $author->description }}</textarea>
+            <textarea class="form-control" rows="9" placeholder="Enter Author's Description" name="description" required>{{ old('description') ?? $author->description }}</textarea>
             @if ($errors->has('description'))
                 <span class="help-block">
                     <strong>{{ $errors->first('description') }}</strong>

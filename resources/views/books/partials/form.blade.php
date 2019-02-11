@@ -6,7 +6,7 @@
     @endif
 
     <div class="box-body">
-        <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
+        <div class="form-group col-md-6 {{ $errors->has('name') ? 'has-error' : '' }}">
             <label>Book Name</label>
             <input type="text" class="form-control" placeholder="Enter Book Name" value="{{ old('name') ?? $book->name }}" name="name" required>
             @if ($errors->has('name'))
@@ -16,7 +16,7 @@
             @endif
         </div>
 
-        <div class="form-group {{ $errors->has('isbn') ? 'has-error' : '' }}">
+        <div class="form-group col-md-6 {{ $errors->has('isbn') ? 'has-error' : '' }}">
             <label>Book ISBN</label>
             <input type="text" class="form-control" placeholder="Enter ISBN" value="{{ old('isbn') ?? $book->isbn }}" name="isbn" required>
             @if ($errors->has('isbn'))
@@ -26,7 +26,7 @@
             @endif
         </div>
 
-        <div class="form-group">
+        <div class="form-group col-md-6">
             <label>Book Author(s)</label>
             <div>
                 <select  name='author_id[]' multiple class="form-control">
@@ -38,7 +38,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group col-md-6">
             <label>Categories</label>
             <div>
                 <select  name='category_id[]' multiple class="form-control">
@@ -51,7 +51,7 @@
             </div>
         </div>
 
-        <div class="form-group {{ $errors->has('pages') ? 'has-error' : '' }}">
+        <div class="form-group col-md-4 {{ $errors->has('pages') ? 'has-error' : '' }}">
             <label>Number of Pages</label>
             <input type="integer" class="form-control" placeholder="Isbn" name="pages" value="{{ old('pages') ?? $book->pages }}" required>
             @if ($errors->has('pages'))
@@ -61,7 +61,7 @@
             @endif
         </div>
 
-        <div class="form-group {{ $errors->has('edition') ? 'has-error' : '' }}">
+        <div class="form-group col-md-4 {{ $errors->has('edition') ? 'has-error' : '' }}">
             <label>Edition</label>
             <input type="text" class="form-control" placeholder="Edition" name="edition" value="{{ old('edition') ?? $book->edition }}" required>
             @if ($errors->has('edition'))
@@ -71,7 +71,7 @@
             @endif
         </div>
 
-        <div class="form-group {{ $errors->has('publisher') ? 'has-error' : '' }}">
+        <div class="form-group col-md-4 {{ $errors->has('publisher') ? 'has-error' : '' }}">
             <label>Publisher</label>
             <input type="text" class="form-control" placeholder="Publisher" name="publisher" value="{{ old('publisher') ?? $book->publisher }}" required>
             @if ($errors->has('publisher'))
@@ -95,7 +95,7 @@
 
         <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
             <label>Book Description</label>
-            <textarea class="form-control" rows="7" placeholder="Enter Book's nice description" name="description" required>{{ old('description') ?? $book->description }}</textarea>
+            <textarea class="form-control" rows="15" placeholder="Enter Book's nice description" name="description" required>{{ old('description') ?? $book->description }}</textarea>
             @if ($errors->has('description'))
                 <span class="help-block">
                     <strong>{{ $errors->first('description') }}</strong>
