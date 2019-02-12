@@ -52,7 +52,31 @@
                       			Delete
                     		</button>
                     	</a>
+						<a href="{{ route('books.copy', $book) }}">
+							<button type="button" class="btn btn-info" onclick="event.preventDefault();document.getElementById('add-copy-form').style.display = 'block';">Add a Copy</button>
+						</a>
                     </div>
+					<div id="add-copy-form" class="row" style="margin-top: 20px; @if ($errors->any()) display: true @else display: none; @endif ">
+						<form class="form" method="POST" action="{{ route('books.copy', $book) }}">
+							@csrf
+							<div class="form-group col-md-9 {{ $errors->has('id') ? 'has-error' : '' }}">
+								<input type="text" autocomplete="off" placeholder="Book UUID" name="id" class="form-control" value="{{ old('id') }}" required>
+					            @if ($errors->has('id'))
+					                <span class="help-block">
+					                    <strong>{{ $errors->first('id') }}</strong>
+					                </span>
+					            @endif
+							</div>
+							<div class="btn-group col-md-3">
+								<button class="btn btn-sm btn-default pull-right" type="button" onclick="document.getElementById('add-copy-form').style.display = 'none';">
+									<i class="fa fa-remove"></i>
+								</button>
+								<button class="btn btn-sm btn-success pull-right" type="submit">
+									Add
+								</button>
+							</div>
+						</form>
+					</div>
                     <p class="text-danger">
 		                @if ($errors->has('avatar'))
 	                        <strong>{{ $errors->first('avatar') }}</strong>

@@ -34,4 +34,9 @@ class Book extends Model
     {
         return $this->morphToMany(Category::class, 'entity', 'entity_category');
     }
+
+    public function bookcopies()
+    {
+        return $this->hasMany(BookCopy::class);
+    }
 }

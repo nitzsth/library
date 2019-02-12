@@ -6,6 +6,7 @@ use App\Helpers\Constant;
 use App\Models\Book;
 use App\Models\Author;
 use App\Models\Category;
+use App\Models\BookCopy;
 use App\Http\Requests\BookRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -137,6 +138,14 @@ class BookController extends Controller
         }
 
         $book->update(['avatar' => "/storage/$path"]);
+
+        return redirect()->route('books.show', $book);
+    }
+
+    public function addcopy(Request $request, Book $book)
+    {
+        $this->validate($request, ['id' => 'required|string|unique:book_copies']);
+        $book->bookcopies()->create($request->all());
 
         return redirect()->route('books.show', $book);
     }

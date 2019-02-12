@@ -15,7 +15,7 @@ class CreateEntityCategoryTable extends Migration
     {
         Schema::create('entity_category', function (Blueprint $table) {
             $table->integer('category_id')->unsigned();
-            $table->integer('entity_id')->unsigned( );
+            $table->integer('entity_id')->unsigned();
             $table->string('entity_type');
 
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
