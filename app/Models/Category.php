@@ -16,7 +16,7 @@ class Category extends Model
     ];
 
     /**
-     * Categories can have many authors.
+     * Get all of the authors tha are assigned this category.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
@@ -26,7 +26,7 @@ class Category extends Model
     }
 
     /**
-     * Categories can have many books.
+     * Get all of the books that are assigned this category.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */

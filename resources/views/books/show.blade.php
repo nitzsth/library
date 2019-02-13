@@ -52,14 +52,14 @@
                       			Delete
                     		</button>
                     	</a>
-						<a href="{{ route('books.copy', $book) }}">
+						<a href="{{ route('books.copy.store', $book) }}">
 							<button type="button" class="btn btn-info" onclick="event.preventDefault();document.getElementById('add-copy-form').style.display = 'block';">Add a Copy</button>
 						</a>
                     </div>
 					<div id="add-copy-form" class="row" style="margin-top: 20px; @if ($errors->any()) display: true @else display: none; @endif ">
-						<form class="form" method="POST" action="{{ route('books.copy', $book) }}">
+						<form class="form" method="POST" action="{{ route('books.copy.store', $book) }}">
 							@csrf
-							<div class="form-group col-md-9 {{ $errors->has('id') ? 'has-error' : '' }}">
+							<div class="form-group col-md-8 {{ $errors->has('id') ? 'has-error' : '' }}">
 								<input type="text" autocomplete="off" placeholder="Book UUID" name="id" class="form-control" value="{{ old('id') }}" required>
 					            @if ($errors->has('id'))
 					                <span class="help-block">
@@ -67,13 +67,17 @@
 					                </span>
 					            @endif
 							</div>
-							<div class="btn-group col-md-3">
-								<button class="btn btn-sm btn-default pull-right" type="button" onclick="document.getElementById('add-copy-form').style.display = 'none';">
-									<i class="fa fa-remove"></i>
-								</button>
-								<button class="btn btn-sm btn-success pull-right" type="submit">
+							<div class="btn-group col-md-4">
+								<a>
+									<button class="btn btn-sm btn-default pull-right" type="button" onclick="document.getElementById('add-copy-form').style.display = 'none';">
+										<i class="fa fa-remove"></i>
+									</button>
+								</a>
+								<a>
+									<button class="btn btn-sm btn-success pull-right" type="submit">
 									Add
-								</button>
+									</button>
+								</a>
 							</div>
 						</form>
 					</div>
@@ -93,34 +97,65 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-8">
+		<div class="col-md-4">
 			<div class="box box-primary">
 				<div class="box-header with-border">
 					<h4><i class="fa fa-pencil margin-r-5"></i>Author(s)</h4>
 				</div>
 				<div class="box-body row">
 					@forelse($book->authors as $author)
-						<h4 class="col-md-3">
+						<h4 class="col-md-6">
 							<a href="{{ route('authors.show', $author) }}">{{ $author->name }}</a>
 						</h4>
 					@empty
-						<h5 class="col-md-8">No authors found.</h5>
+						<h5 class="col-md-12">No authors found.</h5>
 					@endforelse
 				</div>
 			</div>
-
+		</div>
+		<div class="col-md-4">
 			<div class="box box-primary">
 				<div class="box-header with-border">
 					<h4><i class="fa fa-cubes margin-r-5"></i>Categories</h4>
 				</div>
 				<div class="box-body row">
 					@forelse($book->categories as $category)
-						<h4 class="col-md-3">
+						<h4 class="col-md-6">
 							<a href="{{ route('categories.show', $category) }}">{{ $category->name }}</a>
 						</h4>
 					@empty
-						<h5 class="col-md-8">No categories found.</h5>
+						<h5 class="col-md-12">No categories found.</h5>
 					@endforelse
+				</div>
+			</div>
+		</div>
+		<div class="col-md-8">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h4><i class="fa fa-clone margin-r-5"></i>Copies</h4>
+				</div>
+				<div class="box-body">
+					<table class="table table-borded table-hover">
+						<tr>
+							<th>Copy ID</th>
+							<th>Date Added</th>
+						</tr>
+						@forelse($bookCopies as $bookCopy)
+						<tr>
+							<td><a href="{{ route('book-copies.show', $bookCopy) }} ">{{ $bookCopy->id }}</a></td>
+							<td>{{ date('d F, Y', strtotime($bookCopy->created_at)) }}</td>
+						</tr>
+						@empty
+						<tr>
+							<td colspan="2">No books found.</td>
+						</tr>
+						@endforelse
+					</table>
+					<div class="box-footer clearfix">
+					    <div class="pagination pagination-sm no-margin pull-right">
+							{{ $bookCopies->links() }}
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

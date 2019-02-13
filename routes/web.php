@@ -17,9 +17,11 @@ Route::middleware(['auth', 'verified'])->group(function() {
 	Route::post('authors/{author}/upload', 'AuthorController@upload')->name('authors.upload');
 	Route::resource('authors', 'AuthorController');
 
-	Route::post('books/{book}/copy', 'BookController@addcopy')->name('books.copy');
+	Route::post('books/{book}/book-copy', 'BookController@addCopy')->name('books.copy.store');
 	Route::post('books/{book}/upload', 'BookController@upload')->name('books.upload');
 	Route::resource('books', 'BookController');
+
+	Route::resource('book-copies', 'BookCopyController')->only(['show', 'update']);
 
 	Route::resource('categories', 'CategoryController');
 

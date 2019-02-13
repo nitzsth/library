@@ -17,6 +17,8 @@ class CreateBookCopiesTable extends Migration
             $table->string('id')->primary();
             $table->integer('book_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
         });
     }
 

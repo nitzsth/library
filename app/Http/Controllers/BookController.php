@@ -69,7 +69,9 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        return view('books.show', compact('book'));
+        $bookCopies = $book->bookCopies()->orderBy('id')->paginate('10');
+        
+        return view('books.show', compact('book', 'bookCopies'));
     }
 
     /**
@@ -142,10 +144,17 @@ class BookController extends Controller
         return redirect()->route('books.show', $book);
     }
 
-    public function addcopy(Request $request, Book $book)
+    /**
+     * Store the bookCopy id of a specified book.
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @param  \App\Model\Book  $book
+     * q@return \Illuminate\Http\RedirectResponse
+     */
+    public function addCopy(Request $request, Book $book)
     {
-        $this->validate($request, ['id' => 'required|string|unique:book_copies']);
-        $book->bookcopies()->create($request->all());
+        $this->validate($request, ['id' => 'required|alpha_dash|unique:book_copies']);
+        $book->bookCopies()->create($request->all());
 
         return redirect()->route('books.show', $book);
     }

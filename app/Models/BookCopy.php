@@ -11,5 +11,24 @@ class BookCopy extends Model
      *
      * @var array
      */
-    protected $fillable = ['id',];
+    protected $fillable = ['id'];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'string'
+    ];
+
+    /**
+     * Get the book that owns the copy.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function book()
+    {
+        return $this->belongsTo(Book::class);
+    }
 }

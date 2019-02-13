@@ -16,7 +16,7 @@ class Author extends Model
     ];
 
     /**
-     * Authors can have many books.
+     * The books that belong to the author.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -26,7 +26,7 @@ class Author extends Model
     }
 
     /**
-     * Authors can have many categories.
+     * Get all of the categories for the author.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
