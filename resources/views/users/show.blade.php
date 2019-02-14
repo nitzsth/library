@@ -52,7 +52,35 @@
                       			Delete
                     		</button>
                     	</a>
+						<a href="{{ route('users.borrow', $user) }}">
+							<button type="button" class="btn btn-info" onclick="event.preventDefault();document.getElementById('borrow-form').style.display = 'block';">Borrow a Book</button>
+						</a>
                     </div>
+                    <div id="borrow-form" class="row" style="margin-top: 20px; @if ($errors->any()) display: true @else display: none; @endif ">
+						<form class="form" method="POST" action="{{ route('users.borrow', $user) }}">
+							@csrf
+							<div class="form-group col-md-8 {{ $errors->has('book_copy_id') ? 'has-error' : '' }}">
+								<input type="text" autocomplete="off" placeholder="Book UUID" name="book_copy_id" class="form-control" value="{{ old('book_copy_id') }}" required>
+					            @if ($errors->has('book_copy_id'))
+					                <span class="help-block">
+					                    <strong>{{ $errors->first('book_copy_id') }}</strong>
+					                </span>
+					            @endif
+							</div>
+							<div class="btn-group col-md-4">
+								<a>
+									<button class="btn btn-sm btn-default pull-right" type="button" onclick="document.getElementById('borrow-form').style.display = 'none';">
+										<i class="fa fa-remove"></i>
+									</button>
+								</a>
+								<a>
+									<button class="btn btn-sm btn-success pull-right" type="submit">
+									Submit
+									</button>
+								</a>
+							</div>
+						</form>
+					</div>
                     <p class="text-danger">
 		                @if ($errors->has('avatar'))
 	                        <strong>{{ $errors->first('avatar') }}</strong>

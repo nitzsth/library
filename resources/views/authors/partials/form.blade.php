@@ -18,7 +18,7 @@
 
         <div class="form-group {{ $errors->has('birth') ? 'has-error' : '' }}">
             <label>Birth Date</label>
-            <input type="integer" class="form-control" placeholder="Enter Author's DOB" value="{{ old('birth') ?? $author->birth }}" name="birth" required>
+            <input type="integer" class="form-control" placeholder="Enter Author's DOB" value="{{ old('birth') ?? $author->birth }}" name="birth">
             @if ($errors->has('birth'))
                 <span class="help-block">
                     <strong>{{ $errors->first('birth') }}</strong>
@@ -28,7 +28,7 @@
 
         <div class="form-group {{ $errors->has('death') ? 'has-error' : '' }}">
             <label>Date of Demise</label>
-            <input type="integer" class="form-control" placeholder="Enter Author's DOD" value="{{ old('death') ?? $author->death }}" name="death" required>
+            <input type="integer" class="form-control" placeholder="Enter Author's DOD" value="{{ old('death') ?? $author->death }}" name="death">
             @if ($errors->has('death'))
                 <span class="help-block">
                     <strong>{{ $errors->first('death') }}</strong>

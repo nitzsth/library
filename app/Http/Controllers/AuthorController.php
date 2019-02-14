@@ -52,7 +52,7 @@ class AuthorController extends Controller
         }
 
         $author = Author::create($data);
-        $book->categories()->attach($request->category_id);
+        $author->categories()->attach($request->category_id);
 
         return redirect()->route('authors.show', $author);
     }

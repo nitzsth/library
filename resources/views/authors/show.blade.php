@@ -67,7 +67,7 @@
 				<div class="box-body row">
 					@forelse($author->books as $book)
 						<h4 class="col-md-3">
-							<a href="{{ route('books.show', $author) }}">{{ $book->name }}</a>
+							<a href="{{ route('books.show', $book) }}">{{ $book->name }}</a>
 						</h4>
 					@empty
 						<h5 class="col-md-8">No books found.</h5>

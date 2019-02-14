@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\BookCopy;
-use App\Models\Book;
 use Illuminate\Http\Request;
 
 class BookCopyController extends Controller

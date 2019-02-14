@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Constant;
 use App\Models\User;
+use Illuminate\Validation\Rule;
 use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -132,6 +133,32 @@ class UserController extends Controller
         }
 
         $user->update(['avatar' => "/storage/$path"]);
+
+        return redirect()->route('users.show', $user);
+    }
+
+    /**
+     * Store the borrow data of a user borrowing books.
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @param  \App\Model\User  $user
+     * q@return \Illuminate\Http\RedirectResponse
+     */
+    public function borrow(Request $request, User $user)
+    {
+        $message = [
+            'unique' => 'The selected book has already been borrowed.',
+        ];
+        $this->validate($request, [
+            'book_copy_id' => [
+                'required', 'alpha_dash', 'exists:book_copies,id',
+                Rule::unique('book_copy_user')->where(function ($query) {
+                    $query->whereNull('returned_date');
+                }),
+            ],
+        ], $message);
+
+        $user->bookCopies()->attach($request->book_copy_id, ['borrowed_date' => now()]);
 
         return redirect()->route('users.show', $user);
     }

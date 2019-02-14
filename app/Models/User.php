@@ -27,4 +27,14 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Get the book copy borrowed by the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function bookCopies()
+    {
+        return $this->belongsToMany(BookCopy::class)->withPivot(['borrowed_date', 'returned_date', 'fine']);
+    }
 }

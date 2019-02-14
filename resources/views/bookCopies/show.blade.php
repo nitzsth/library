@@ -47,7 +47,7 @@
                     		</button>
                     	</a>
                     </div>
-                    <div id="edit-copy-form" class="row" style="margin-top: 20px; @if ($errors->any()) display: true @else display: none; @endif ">
+                    <div id="edit-copy-form" class="row" style="margin-top: 20px; @if ($errors->has('id')) display: true @else display: none; @endif ">
                     	<form class="form" method="POST" action="{{ route('book-copies.update', $bookCopy) }} ">
                     		@csrf
                     		@method('PUT')

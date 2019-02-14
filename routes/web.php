@@ -28,5 +28,6 @@ Route::middleware(['auth', 'verified'])->group(function() {
 	Route::view('/', 'dashboard')->name('dashboard');
 
 	Route::post('users/{user}/upload', 'UserController@upload')->name('users.upload');
+	Route::post('users/{user}/borrow', 'UserController@borrow')->name('users.borrow');
 	Route::resource('users', 'UserController');
 });

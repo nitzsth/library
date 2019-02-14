@@ -25,7 +25,7 @@ class AuthorRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:3|max:50',
-            'birth' => 'required|integer',
+            'birth' => 'nullable|integer',
             'death' => 'nullable|integer',
             'avatar' => 'nullable|image|max:1000',
             'description' => 'required',
