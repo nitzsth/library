@@ -89,6 +89,37 @@
 				</div>
 			</div>
 		</div>
+		<div class="col-md-8">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h4> <i class="fa fa-history margin-r-5"></i>Borrowed History</h4>
+				</div>
+				<div class="box-body">
+					<table class="table table-border- table-hover">
+						<tr>
+							<th>Book UUID</th>
+							<th>Book Name</th>
+							<th>Borrowed Date/Time</th>
+							<th>Returned Date</th>
+							<th>Fine Paid</th>
+						</tr>
+						@forelse($user->bookCopies as $bookCopy)
+							<tr>
+								<td><a href="{{ route('book-copies.show', $bookCopy) }}"> {{ $bookCopy->id }}</a></td>
+								<td><a href="{{ route('books.show', $bookCopy->book) }}">{{ $bookCopy->book->name }}</a></td>
+								<td>{{ date('d F, Y / H:i:s', strtotime($bookCopy->pivot->borrowed_date)) }}</td>
+								<td>@if($bookCopy->pivot->returned_date == null) Hasn't been returned yet. @else{{ date('d F, Y', strtotime($bookCopy->pivot->returned_date)) }}@endif</td>
+								<td>Rs. {{ $bookCopy->pivot->fine }}/-</td>
+							</tr>
+						@empty
+							<tr>
+								<td colspan="5">You have not borrowed any book yet.</td>
+							</tr>
+						@endforelse
+					</table>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<div style="display: none;">

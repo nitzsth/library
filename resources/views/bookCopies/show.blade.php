@@ -76,6 +76,33 @@
 				</div>
 			</div>
 		</div>
+		<div class="col-md-8">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h4> <i class="fa fa-history margin-r-5"></i>History</h4>
+				</div>
+				<div class="box-body">
+					<table class="table table-borded table-hover">
+						<tr>
+							<th>Borrowed By</th>
+							<th>Borrowed date/time</th>
+							<th>Returned date/time</th>
+						</tr>
+						@forelse($bookCopy->users as $user)
+						<tr>
+							<td><a href="{{ route('users.show', $user) }}">{{ $user->name }}</a></td>
+							<td>{{ date('d F, Y', strtotime($user->pivot->borrowed_date)) }}</td>
+							<td>@if($user->pivot->returned_date == null) Hasn't been returned yet. @else{{ date('d F, Y', strtotime($user->pivot->returned_date)) }}@endif</td>
+						</tr>
+						@empty
+						<tr>
+							<td colspan="3"> This book hasn't been borrowed by anyone yet.</td>
+						</tr>
+						@endforelse
+					</table>
+				</div>
+			</div>
+		</div>
 	</div>
 </section>
 @endsection

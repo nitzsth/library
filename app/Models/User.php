@@ -35,6 +35,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function bookCopies()
     {
-        return $this->belongsToMany(BookCopy::class)->withPivot(['borrowed_date', 'returned_date', 'fine']);
+        return $this->belongsToMany(BookCopy::class)
+        ->withPivot(['borrowed_date', 'returned_date', 'fine']);
     }
 }

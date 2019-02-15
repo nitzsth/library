@@ -31,4 +31,15 @@ class BookCopy extends Model
     {
         return $this->belongsTo(Book::class);
     }
+
+    /**
+     * Get the user who borrowed the book.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class)
+        ->withPivot(['borrowed_date', 'returned_date', 'fine']);
+    }
 }
