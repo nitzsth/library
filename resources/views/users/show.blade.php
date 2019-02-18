@@ -57,29 +57,41 @@
 						</a>
                     </div>
                     <div id="borrow-form" class="row" style="margin-top: 20px; @if ($errors->any()) display: true @else display: none; @endif ">
-						<form class="form" method="POST" action="{{ route('users.borrow', $user) }}">
-							@csrf
-							<div class="form-group col-md-8 {{ $errors->has('book_copy_id') ? 'has-error' : '' }}">
-								<input type="text" autocomplete="off" placeholder="Book UUID" name="book_copy_id" class="form-control" value="{{ old('book_copy_id') }}" required>
-					            @if ($errors->has('book_copy_id'))
-					                <span class="help-block">
-					                    <strong>{{ $errors->first('book_copy_id') }}</strong>
-					                </span>
-					            @endif
+						@if($counts >= App\Helpers\Constant::MAX_BOOK_BORROW_LIMIT)
+							<div class="box-body">
+								<div class="alert alert-info alert-dismissible col-md-12">
+					                <button class="btn btn-xs btn-info pull-right" type="button" onclick="document.getElementById('borrow-form').style.display = 'none';">
+												<i class="fa fa-remove"></i>
+											</button>
+					                <h4><i class="icon fa fa-info"></i> Alert!</h4>
+					                You have already borrowed 5 books. Please return any previously borrowed book, and then try again.
+								</div>
 							</div>
-							<div class="btn-group col-md-4">
-								<a>
-									<button class="btn btn-sm btn-default pull-right" type="button" onclick="document.getElementById('borrow-form').style.display = 'none';">
-										<i class="fa fa-remove"></i>
-									</button>
-								</a>
-								<a>
-									<button class="btn btn-sm btn-success pull-right" type="submit">
-									Submit
-									</button>
-								</a>
-							</div>
-						</form>
+						@else
+							<form class="form" method="POST" action="{{ route('users.borrow', $user) }}">
+								@csrf
+								<div class="form-group col-md-8 {{ $errors->has('book_copy_id') ? 'has-error' : '' }}">
+									<input type="text" autocomplete="off" placeholder="Book UUID" name="book_copy_id" class="form-control" value="{{ old('book_copy_id') }}" required>
+						            @if ($errors->has('book_copy_id'))
+						                <span class="help-block">
+						                    <strong>{{ $errors->first('book_copy_id') }}</strong>
+						                </span>
+						            @endif
+								</div>
+								<div class="btn-group col-md-4">
+									<a>
+										<button class="btn btn-sm btn-default pull-right" type="button" onclick="document.getElementById('borrow-form').style.display = 'none';">
+											<i class="fa fa-remove"></i>
+										</button>
+									</a>
+									<a>
+										<button class="btn btn-sm btn-success pull-right" type="submit">
+										Submit
+										</button>
+									</a>
+								</div>
+							</form>
+						@endif
 					</div>
                     <p class="text-danger">
 		                @if ($errors->has('avatar'))
@@ -103,7 +115,7 @@
 							<th>Returned Date</th>
 							<th>Fine Paid</th>
 						</tr>
-						@forelse($user->bookCopies as $bookCopy)
+						@forelse($bookCopies as $bookCopy)
 							<tr>
 								<td><a href="{{ route('book-copies.show', $bookCopy) }}"> {{ $bookCopy->id }}</a></td>
 								<td><a href="{{ route('books.show', $bookCopy->book) }}">{{ $bookCopy->book->name }}</a></td>

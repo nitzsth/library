@@ -15,7 +15,13 @@ class BookCopyController extends Controller
      */
     public function show(BookCopy $bookCopy)
     {
-        return view('bookCopies.show', compact('bookCopy'));
+        $available = true;
+        $users = $bookCopy->users()->orderBy('returned_date')->orderBy('borrowed_date', 'desc')->get();
+
+        if ($users->isNotEmpty()) {
+            $available = !!$users->first()->pivot->returned_date;
+        }
+        return view('bookCopies.show', compact('available', 'bookCopy', 'users'));
     }
 
     /**

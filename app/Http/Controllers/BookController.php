@@ -70,7 +70,11 @@ class BookController extends Controller
     public function show(Book $book)
     {
         $bookCopies = $book->bookCopies()->orderBy('id')->paginate('10');
-        
+
+        $bookCopies->each(function ($bookCopy) {
+            $bookCopy['available'] = $bookCopy->users()->whereNull('returned_date')->get()->isEmpty();
+        });
+
         return view('books.show', compact('book', 'bookCopies'));
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Constant;
 use App\Models\User;
+use App\Models\BookCopy;
 use Illuminate\Validation\Rule;
 use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
@@ -65,7 +66,11 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('users.show', compact('user'));
+        $bookCopies = $user->bookCopies()->orderBy('returned_date')->orderBy('borrowed_date', 'desc')->get();
+
+        $counts = $user->bookCopies()->whereNull('returned_date')->count();
+
+        return view('users.show', compact('user', 'counts', 'bookCopies'));
     }
 
     /**

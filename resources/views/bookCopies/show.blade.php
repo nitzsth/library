@@ -39,6 +39,12 @@
 						<li class="list-group-item">
 							<b>Publisher</b><span class="pull-right">{{ ucwords($bookCopy->book->publisher) }}</span>
 						</li>
+						<li class="list-group-item">
+							<b>Status</b>
+							<span class="pull-right badge bg-{{ $available ? 'green' : 'red' }}">
+								{{ $available ? 'Available' : 'Unavailable'}}
+							</span>
+						</li>
 					</ul>
 					<div class="btn-group text-center">
                   		<a href="{{ route('book-copies.update', $bookCopy) }} ">
@@ -88,10 +94,10 @@
 							<th>Borrowed date/time</th>
 							<th>Returned date/time</th>
 						</tr>
-						@forelse($bookCopy->users as $user)
+						@forelse($users as $user)
 						<tr>
 							<td><a href="{{ route('users.show', $user) }}">{{ $user->name }}</a></td>
-							<td>{{ date('d F, Y', strtotime($user->pivot->borrowed_date)) }}</td>
+							<td>{{ date('d F, Y / H:i:s', strtotime($user->pivot->borrowed_date)) }}</td>
 							<td>@if($user->pivot->returned_date == null) Hasn't been returned yet. @else{{ date('d F, Y', strtotime($user->pivot->returned_date)) }}@endif</td>
 						</tr>
 						@empty

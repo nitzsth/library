@@ -138,11 +138,17 @@
 					<table class="table table-borded table-hover">
 						<tr>
 							<th>Copy ID</th>
+							<th>Status</th>
 							<th>Date Added</th>
 						</tr>
 						@forelse($bookCopies as $bookCopy)
 						<tr>
 							<td><a href="{{ route('book-copies.show', $bookCopy) }} ">{{ $bookCopy->id }}</a></td>
+							<td>
+								<span class="badge bg-{{ $bookCopy->available ? 'green' : 'red' }}">
+								{{ $bookCopy->available ? 'Available' : 'Unavailable'}}
+							</span>
+							</td>
 							<td>{{ date('d F, Y', strtotime($bookCopy->created_at)) }}</td>
 						</tr>
 						@empty
