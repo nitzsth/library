@@ -98,7 +98,7 @@
 						<tr>
 							<td><a href="{{ route('users.show', $user) }}">{{ $user->name }}</a></td>
 							<td>{{ date('d F, Y / H:i:s', strtotime($user->pivot->borrowed_date)) }}</td>
-							<td>@if($user->pivot->returned_date == null) Hasn't been returned yet. @else{{ date('d F, Y', strtotime($user->pivot->returned_date)) }}@endif</td>
+							<td>@if($user->pivot->returned_date == null) Hasn't been returned yet. @else{{ date('d F, Y / H:i:s', strtotime($user->pivot->returned_date)) }}@endif</td>
 						</tr>
 						@empty
 						<tr>

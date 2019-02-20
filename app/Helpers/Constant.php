@@ -25,8 +25,17 @@ class Constant {
 	 */
 	const DIR_AVATAR = 'avatars';
 
+	/**
+	 * Borrowing related constants
+	 */
+	const BOOK_BORROW_DAYS = 30;
 	const MAX_BOOK_BORROW_LIMIT = 5;
 
+	/**
+	 * Get an array of all available roles
+	 *
+	 * @return array
+	 */
 	public static function getRoles(): array
 	{
 		return [

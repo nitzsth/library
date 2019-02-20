@@ -56,7 +56,7 @@
 							<button type="button" class="btn btn-info" onclick="event.preventDefault();document.getElementById('borrow-form').style.display = 'block';">Borrow a Book</button>
 						</a>
                     </div>
-                    <div id="borrow-form" class="row" style="margin-top: 20px; @if ($errors->any()) display: true @else display: none; @endif ">
+                    <div id="borrow-form" class="row" style="margin-top: 20px; @if ($errors->has('book_copy_id')) display: true @else display: none; @endif ">
 						@if($counts >= App\Helpers\Constant::MAX_BOOK_BORROW_LIMIT)
 							<div class="box-body">
 								<div class="alert alert-info alert-dismissible col-md-12">
@@ -86,7 +86,7 @@
 									</a>
 									<a>
 										<button class="btn btn-sm btn-success pull-right" type="submit">
-										Submit
+											Submit
 										</button>
 									</a>
 								</div>
@@ -103,24 +103,63 @@
 		</div>
 		<div class="col-md-8">
 			<div class="box box-primary">
-				<div class="box-header with-border">
-					<h4> <i class="fa fa-history margin-r-5"></i>Borrowed History</h4>
+				<div class="box-header">
+					<h4>
+						<i class="fa fa-history margin-r-5"></i>Borrowed History
+						<span class="pull-right">
+							Paid fine : <span class="badge bg-green">Rs. {{ $paidFine }}/-</span>&nbsp;&nbsp;
+							Active fine : <span class="badge bg-red">Rs. {{ $activeFine }}/-</span>
+						</span>
+					</h4>
 				</div>
 				<div class="box-body">
-					<table class="table table-border- table-hover">
+					<table class="table table-border table-hover">
 						<tr>
 							<th>Book UUID</th>
 							<th>Book Name</th>
 							<th>Borrowed Date/Time</th>
-							<th>Returned Date</th>
-							<th>Fine Paid</th>
+							<th>Returned Date/Time</th>
+							<th>Fine</th>
 						</tr>
 						@forelse($bookCopies as $bookCopy)
 							<tr>
 								<td><a href="{{ route('book-copies.show', $bookCopy) }}"> {{ $bookCopy->id }}</a></td>
 								<td><a href="{{ route('books.show', $bookCopy->book) }}">{{ $bookCopy->book->name }}</a></td>
 								<td>{{ date('d F, Y / H:i:s', strtotime($bookCopy->pivot->borrowed_date)) }}</td>
-								<td>@if($bookCopy->pivot->returned_date == null) Hasn't been returned yet. @else{{ date('d F, Y', strtotime($bookCopy->pivot->returned_date)) }}@endif</td>
+								<td>@if($bookCopy->pivot->returned_date == null)
+										<a href="{{ route('users.books.copy.return', [$user, $bookCopy]) }} ">
+											<button type="button" class="btn btn-xs btn-success" onclick="event.preventDefault();document.getElementById('book-return-form-{{ $bookCopy->id }}').style.display = 'block';"><i class="fa fa-repeat margin-r-5"></i><span>Return Book</span>
+											</button>
+										</a>
+										<div id="book-return-form-{{ $bookCopy->id }}" class="row" style="width: 200px; margin: 0px; @if ($errors->has('fine') && old('book_copy_id') === $bookCopy->id) display: true @else display: none; @endif ">
+												<form method="POST" action="{{ route('users.books.copy.return', [$user, $bookCopy]) }}">
+													@csrf
+													<div class="form-group {{ $errors->has('fine') && old('book_copy_id') === $bookCopy->id ? 'has-error' : '' }}">
+														<input type="hidden" name="book_copy_id" value="{{ $bookCopy->id }}">
+														<input class="form-group col-md-4" type="integer" name="fine" value="{{ $bookCopy->pivot->fine }}" autocomplete="off" required>
+														<div class="btn-group col-md-5">
+															<a>
+																<button class="btn btn-xs btn-default pull-right" type="button" onclick="document.getElementById('book-return-form-{{ $bookCopy->id }}').style.display = 'none';">
+																	<i class="fa fa-remove"></i>
+																</button>
+															</a>
+															<a>
+																<button class="btn btn-xs btn-success pull-right" type="submit">
+																<i class="fa fa-check"></i>
+																</button>
+															</a>
+														</div>
+														@if ($errors->has('fine') && old('book_copy_id') === $bookCopy->id)
+															<span class="help-block">
+																<strong class="pull-left text-justify">{{ $errors->first('fine') }}</strong>
+															</span>
+														@endif
+													</div>
+												</form>
+										</div>
+
+									@else{{ date('d F, Y / H:i:s', strtotime($bookCopy->pivot->returned_date)) }}@endif
+								</td>
 								<td>Rs. {{ $bookCopy->pivot->fine }}/-</td>
 							</tr>
 						@empty
@@ -129,6 +168,11 @@
 							</tr>
 						@endforelse
 					</table>
+					<div class="box-footer clearfix">
+					    <div class="pagination pagination-sm no-margin pull-right">
+							{{ $bookCopies->links() }}
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

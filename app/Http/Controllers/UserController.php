@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -61,22 +62,39 @@ class UserController extends Controller
     /**
      * Display the specified user.
      *
-     * @param  \App\Model\User  $user
+     * @param  \App\Models\User  $user
      * @return \Illuminate\View\View
      */
     public function show(User $user)
     {
-        $bookCopies = $user->bookCopies()->orderBy('returned_date')->orderBy('borrowed_date', 'desc')->get();
+        $bookCopies = $user->bookCopies()->orderBy('returned_date')->orderBy('borrowed_date', 'desc')->paginate('10');
+
+        $bookCopies->each(function ($bookCopy) {
+            if (!$bookCopy->pivot->returned_date) {
+                $date = new Carbon($bookCopy->borrowed_date);
+                $diff = ($date->diff(today())->days);
+                $fine = max($diff - Constant::BOOK_BORROW_DAYS, 12);
+                $bookCopy['pivot']['fine'] = $fine;
+            }
+        });
+
+        $paidFine = $bookCopies->filter(function ($bookCopy) {
+            return !!$bookCopy->pivot->returned_date;
+        })->sum('pivot.fine');
+
+        $activeFine = $bookCopies->filter(function ($bookCopy) {
+            return !$bookCopy->pivot->returned_date;
+        })->sum('pivot.fine');
 
         $counts = $user->bookCopies()->whereNull('returned_date')->count();
 
-        return view('users.show', compact('user', 'counts', 'bookCopies'));
+        return view('users.show', compact('user', 'counts', 'bookCopies', 'paidFine', 'activeFine'));
     }
 
     /**
      * Show the form for editing the specified user.
      *
-     * @param  \App\Model\User  $user
+     * @param  \App\Models\User  $user
      * @return \Illuminate\View\View
      */
     public function edit(User $user)
@@ -88,7 +106,7 @@ class UserController extends Controller
      * Update the specified user in storage.
      *
      * @param  App\Http\Requests\UserRequest  $request
-     * @param  \App\Model\User  $user
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UserRequest $request, User $user)
@@ -109,7 +127,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Model\User  $user
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(User $user)
@@ -124,8 +142,8 @@ class UserController extends Controller
      * Upload the specified image and replace existing image from storage if any.
      *
      * @param \Illuminate\Http\Request  $request
-     * @param  \App\Model\User  $user
-     * q@return \Illuminate\Http\RedirectResponse
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function upload(Request $request, User $user)
     {
@@ -146,13 +164,13 @@ class UserController extends Controller
      * Store the borrow data of a user borrowing books.
      *
      * @param \Illuminate\Http\Request  $request
-     * @param  \App\Model\User  $user
-     * q@return \Illuminate\Http\RedirectResponse
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function borrow(Request $request, User $user)
     {
         $message = [
-            'unique' => 'The selected book has already been borrowed.',
+            'unique' => "The selected book has already been borrowed.",
         ];
         $this->validate($request, [
             'book_copy_id' => [
@@ -164,6 +182,35 @@ class UserController extends Controller
         ], $message);
 
         $user->bookCopies()->attach($request->book_copy_id, ['borrowed_date' => now()]);
+
+        return redirect()->route('users.show', $user);
+    }
+
+    /**
+     * Return the borrowed bookcopy along with fine payment if any.
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\BookCopy  $bookCopy
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function bookCopyReturn(Request $request, User $user, BookCopy $bookCopy)
+    {
+        $date = new Carbon($bookCopy->borrowed_date);
+        $diff = ($date->diff(today())->days);
+        $fine = max($diff - Constant::BOOK_BORROW_DAYS, 12);
+
+        $this->validate($request, [
+            'fine' => "required|integer|size:$fine",
+        ]);
+
+        $user->bookCopies()
+            ->whereNull('returned_date')
+            ->where('book_copy_id', $bookCopy->id)
+            ->update([
+                'fine' => $request->fine,
+                'returned_date' => now(),
+            ]);
 
         return redirect()->route('users.show', $user);
     }
