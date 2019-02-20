@@ -19,11 +19,13 @@
     <div class="box-header">
       <i class="fa fa-books"></i>
       <h3 class="box-title">Books</h3>
-      <div class="pull-right box-tools">
-        <a href="{{ route('books.create') }}"><button type="button" class="btn btn-info">
-           <i class="fa fa-plus margin-r-5"></i> Add Book
-         </button></a>
-      </div>
+      @if (auth()->user()->role === App\Helpers\Constant::ADMIN)
+        <div class="pull-right box-tools">
+          <a href="{{ route('books.create') }}"><button type="button" class="btn btn-info">
+             <i class="fa fa-plus margin-r-5"></i> Add Book
+           </button></a>
+        </div>
+      @endif
     </div>
     <div class="box-body">
       <table class="table table-borded table-hover">

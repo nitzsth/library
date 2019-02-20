@@ -25,28 +25,40 @@
 					<p class="text-center text-muted">
 						{{ $author->birth }}-{{ $author->death }}
 					</p>
-					<div class="btn-group text-center">
-                  		<a href="{{ route('authors.upload', $author) }}">
-                    		<button type="button" class="btn btn-warning" onclick="event.preventDefault();document.getElementById('avatar').click();">
-                      			Upload Avatar
-                    		</button>
-                    	</a>
-                  		<a href="{{ route('authors.edit', $author) }}">
-                    		<button type="button" class="btn btn-primary">
-                      			Edit
-                    		</button>
-                    	</a>
-						<a href="{{ route('authors.destroy', $author) }}" onclick="event.preventDefault();document.getElementById('delete-form').submit();">
-                    		<button type="button" class="btn btn-danger">
-                      			Delete
-                    		</button>
-                    	</a>
-                    </div>
-                    <p class="text-danger">
-		                @if ($errors->has('avatar'))
-	                        <strong>{{ $errors->first('avatar') }}</strong>
-		                @endif
-	                </p>
+					@if (auth()->user()->role === App\Helpers\Constant::ADMIN)
+						<div class="btn-group text-center">
+							<a href="{{ route('authors.upload', $author) }}">
+								<button type="button" class="btn btn-warning" onclick="event.preventDefault();document.getElementById('avatar').click();">
+									Upload Avatar
+								</button>
+							</a>
+							<a href="{{ route('authors.edit', $author) }}">
+								<button type="button" class="btn btn-primary">
+									Edit
+								</button>
+							</a>
+							<a href="{{ route('authors.destroy', $author) }}" onclick="event.preventDefault();document.getElementById('delete-form').submit();">
+								<button type="button" class="btn btn-danger">
+									Delete
+								</button>
+							</a>
+						</div>
+						<p class="text-danger">
+							@if ($errors->has('avatar'))
+								<strong>{{ $errors->first('avatar') }}</strong>
+							@endif
+						</p>
+		                <div style="display: none;">
+						    <form id="upload-form" method="POST" enctype="multipart/form-data" action="{{ route('authors.upload', $author) }}">
+								@csrf
+						        <input type="file" name="avatar" id="avatar" accept="image/*" onchange="event.preventDefault();document.getElementById('upload-form').submit();">
+							</form>
+							<form id="delete-form" method="POST" action="{{ route('authors.destroy', $author) }}">
+								@csrf
+								@method('DELETE')
+							</form>
+						</div>
+	                @endif
 				</div>
 			</div>
 
@@ -90,19 +102,6 @@
 				</div>
 			</div>
 		</div>
-
-
-	</div>
-
-	<div style="display: none;">
-	    <form id="upload-form" method="POST" enctype="multipart/form-data" action="{{ route('authors.upload', $author) }}">
-			@csrf
-	        <input type="file" name="avatar" id="avatar" accept="image/*" onchange="event.preventDefault();document.getElementById('upload-form').submit();">
-		</form>
-		<form id="delete-form" method="POST" action="{{ route('authors.destroy', $author) }}">
-			@csrf
-			@method('DELETE')
-		</form>
 	</div>
 </section>
 @endsection

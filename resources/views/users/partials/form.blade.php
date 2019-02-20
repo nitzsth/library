@@ -10,9 +10,9 @@
             <label>Full Name</label>
             <input type="text" class="form-control" placeholder="Enter Full Name" value="{{ old('name') ?? $user->name }}" name="name" required>
             @if ($errors->has('name'))
-            <span class="help-block">
-                <strong>{{ $errors->first('name') }}</strong>
-            </span>
+                <span class="help-block">
+                    <strong>{{ $errors->first('name') }}</strong>
+                </span>
             @endif
         </div>
 
@@ -20,9 +20,9 @@
             <label>Email address</label>
             <input type="email" class="form-control" placeholder="Enter email" value="{{ old('email') ?? $user->email }}" name="email" required>
             @if ($errors->has('email'))
-            <span class="help-block">
-                <strong>{{ $errors->first('email') }}</strong>
-            </span>
+                <span class="help-block">
+                    <strong>{{ $errors->first('email') }}</strong>
+                </span>
             @endif
         </div>
 
@@ -30,9 +30,9 @@
             <label>Password</label>
             <input type="password" class="form-control" placeholder="Password" name="password">
             @if ($errors->has('password'))
-            <span class="help-block">
-                <strong>{{ $errors->first('password') }}</strong>
-            </span>
+                <span class="help-block">
+                    <strong>{{ $errors->first('password') }}</strong>
+                </span>
             @endif
         </div>
 

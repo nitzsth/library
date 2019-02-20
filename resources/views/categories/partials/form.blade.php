@@ -10,9 +10,9 @@
             <label>Category Name</label>
             <input type="text" class="form-control" placeholder="Enter Category Name" value="{{ old('name') ?? $category->name }}" name="name" required>
             @if ($errors->has('name'))
-            <span class="help-block">
-                <strong>{{ $errors->first('name') }}</strong>
-            </span>
+                <span class="help-block">
+                    <strong>{{ $errors->first('name') }}</strong>
+                </span>
             @endif
         </div>
 

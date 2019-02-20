@@ -17,13 +17,21 @@
 @section('content')
 <section class="content">
 	<div>
-		<div class="btn-group pull-right">
-			<a href="{{ route('categories.edit', $category) }}">
-				<button class ="btn btn-warning"><i class="fa fa-edit"></i></button>
-			</a>
-			<a href="{{ route('categories.destroy', $category) }}" onclick="event.preventDefault();document.getElementById('delete-form').submit();"><button class="btn btn-danger"> <i class="fa fa-remove"></i></button>
-			</a>
-		</div>
+		@if (auth()->user()->role === App\Helpers\Constant::ADMIN)
+			<div class="btn-group pull-right">
+				<a href="{{ route('categories.edit', $category) }}">
+					<button class ="btn btn-warning"><i class="fa fa-edit"></i></button>
+				</a>
+				<a href="{{ route('categories.destroy', $category) }}" onclick="event.preventDefault();document.getElementById('delete-form').submit();"><button class="btn btn-danger"> <i class="fa fa-remove"></i></button>
+				</a>
+			</div>
+			<div style="display: none;">
+				<form id="delete-form" method="POST" action="{{ route('categories.destroy', $category) }}">
+					@csrf
+					@method('DELETE')
+				</form>
+			</div>
+		@endif
 		<h3>{{ $category->name }}</h3>
 	</div>
 	<div class="nav-tabs-custom">
@@ -81,13 +89,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
-
-	<div style="display: none;">
-		<form id="delete-form" method="POST" action="{{ route('categories.destroy', $category) }}">
-			@csrf
-			@method('DELETE')
-		</form>
 	</div>
 </section>
 @endsection

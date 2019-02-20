@@ -4,11 +4,13 @@
 			<i class="fa fa-dashboard"></i> <span>Dashboard</span>
 		</a>
 	</li>
-	<li>
-		<a href="{{ route('users.index') }}">
-			<i class="fa fa-users"></i> <span>Users</span>
-		</a>
-	</li>
+	@if (auth()->user()->role === App\Helpers\Constant::ADMIN)
+		<li>
+			<a href="{{ route('users.index') }}">
+				<i class="fa fa-users"></i> <span>Users</span>
+			</a>
+		</li>
+	@endif
 	<li>
 		<a href="{{ route('books.index') }}">
 			<i class="fa fa-book"></i> <span>Books</span>

@@ -19,11 +19,13 @@
       <div class="box-header">
         <i class="fa fa-authors"></i>
         <h3 class="box-title">Authors</h3>
+        @if (auth()->user()->role === App\Helpers\Constant::ADMIN)
         <div class="pull-right box-tools">
           <a href="{{ route('authors.create') }}"><button type="button" class="btn btn-info">
              <i class="fa fa-plus margin-r-5"></i> Add Author
            </button></a>
         </div>
+        @endif
       </div>
       <div class="box-body row">
           @forelse($authors as $author)

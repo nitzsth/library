@@ -14,6 +14,16 @@ use Illuminate\Support\Facades\Storage;
 class BookController extends Controller
 {
     /**
+     * Instantiate a new BookController instance.
+     *
+     *@return void
+     */
+    public function __construct()
+    {
+        $this->middleware('admin')->except(['index','show']);
+    }
+
+    /**
      * Show the form for creating a new book.
      *
      * @return \Illuminate\View\View
@@ -62,7 +72,7 @@ class BookController extends Controller
     }
 
     /**
-     * Display the specified book.
+     * Show the specified book.
      *
      * @param  \App\Model\Book  $book
      * @return \Illuminate\View\View

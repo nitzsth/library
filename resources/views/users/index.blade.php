@@ -20,9 +20,11 @@
       <i class="fa fa-users"></i>
       <h3 class="box-title">Users</h3>
       <div class="pull-right box-tools">
-        <a href="{{ route('users.create') }}"><button type="button" class="btn btn-info">
+        <a href="{{ route('users.create') }}">
+          <button type="button" class="btn btn-info">
            <i class="fa fa-user-plus"></i> Add User
-         </button></a>
+         </button>
+        </a>
       </div>
     </div>
     <div class="box-body">
@@ -34,16 +36,16 @@
           <th>Member Since</th>
         </tr>
         @forelse($users as $user)
-        <tr>
-          <td><a href="{{ route('users.show', $user)}}">{{ $user->name }} </a></td>
-          <td>{{ $user->email }}</td>
-          <td>{{ ucwords($user->role) }}</td>
-          <td>{{ date('d F, Y', strtotime($user->created_at)) }}</td>
-        </tr>
+          <tr>
+            <td><a href="{{ route('users.show', $user)}}">{{ $user->name }} </a></td>
+            <td>{{ $user->email }}</td>
+            <td>{{ ucwords($user->role) }}</td>
+            <td>{{ date('d F, Y', strtotime($user->created_at)) }}</td>
+          </tr>
         @empty
-        <tr>
-          <td colspan="4">No users found.></td>
-        </tr>
+          <tr>
+            <td colspan="4">No users found.></td>
+          </tr>
         @endforelse
       </table>
     </div>

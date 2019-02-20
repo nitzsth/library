@@ -12,6 +12,16 @@ use Illuminate\Support\Facades\Storage;
 class AuthorController extends Controller
 {
     /**
+     * Instantiate a new AuthorController instance.
+     *
+     *@return void
+     */
+    public function __construct()
+    {
+        $this->middleware('admin')->except(['index','show']);
+    }
+
+    /**
      * Show the form for creating a new author.
      *
      * @return \Illuminate\View\View
@@ -58,7 +68,7 @@ class AuthorController extends Controller
     }
 
     /**
-     * Display the specified author.
+     * Show the specified author.
      *
      * @param  \App\Model\Author  $author
      * @return \Illuminate\View\View

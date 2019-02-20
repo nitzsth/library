@@ -14,6 +14,16 @@ use Carbon\Carbon;
 class UserController extends Controller
 {
     /**
+     * Instantiate a new UserController instance.
+     *
+     *@return void
+     */
+    public function __construct()
+    {
+        $this->middleware('admin')->except('show');
+    }
+
+    /**
      * Show the form for creating a new user.
      *
      * @return \Illuminate\View\View
@@ -60,20 +70,25 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified user.
+     * Show the specified user.
      *
      * @param  \App\Models\User  $user
      * @return \Illuminate\View\View
      */
     public function show(User $user)
     {
+        if(auth()->user()->role !== Constant::ADMIN && $user->id !==auth()->id())
+        {
+            abort(404);
+        }
+
         $bookCopies = $user->bookCopies()->orderBy('returned_date')->orderBy('borrowed_date', 'desc')->paginate('10');
 
         $bookCopies->each(function ($bookCopy) {
             if (!$bookCopy->pivot->returned_date) {
                 $date = new Carbon($bookCopy->borrowed_date);
                 $diff = ($date->diff(today())->days);
-                $fine = max($diff - Constant::BOOK_BORROW_DAYS, 12);
+                $fine = max($diff - Constant::BOOK_BORROW_DAYS, 0);
                 $bookCopy['pivot']['fine'] = $fine;
             }
         });
@@ -198,7 +213,7 @@ class UserController extends Controller
     {
         $date = new Carbon($bookCopy->borrowed_date);
         $diff = ($date->diff(today())->days);
-        $fine = max($diff - Constant::BOOK_BORROW_DAYS, 12);
+        $fine = max($diff - Constant::BOOK_BORROW_DAYS, 0);
 
         $this->validate($request, [
             'fine' => "required|integer|size:$fine",

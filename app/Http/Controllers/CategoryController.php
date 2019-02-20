@@ -10,6 +10,16 @@ use App\Http\Requests\CategoryRequest;
 class CategoryController extends Controller
 {
     /**
+     * Instantiate a new CategoryController instance.
+     *
+     *@return void
+     */
+    public function __construct()
+    {
+        $this->middleware('admin')->except(['index','show']);
+    }
+
+    /**
      * Show the form for creating a new category.
      *
      * @return \Illuminate\View\View
@@ -48,7 +58,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified category.
+     * Show the specified category.
      *
      * @param  \App\Model\Category  $category
      * @return \Illuminate\View\View

@@ -19,11 +19,13 @@
     <div class="box-header">
       <i class="fa fa-cubes"></i>
       <h3 class="box-title">Categories</h3>
-      <div class="pull-right box-tools">
-        <a href="{{ route('categories.create') }}"><button type="button" class="btn btn-info">
-           <i class="fa fa-plus margin-r-5"></i> Add category
-         </button></a>
-      </div>
+      @if (auth()->user()->role === App\Helpers\Constant::ADMIN)
+        <div class="pull-right box-tools">
+          <a href="{{ route('categories.create') }}"><button type="button" class="btn btn-info">
+             <i class="fa fa-plus margin-r-5"></i> Add category
+           </button></a>
+        </div>
+      @endif
     </div>
     <div class="box-body row">
         @forelse($categories as $category)

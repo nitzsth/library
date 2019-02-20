@@ -36,56 +36,68 @@
 							<b>Publisher</b><span class="pull-right">{{ ucwords($book->publisher) }}</span>
 						</li>
 					</ul>
-					<div class="btn-group text-center">
-                  		<a href="{{ route('books.upload', $book) }}">
-                    		<button type="button" class="btn btn-warning" onclick="event.preventDefault();document.getElementById('avatar').click();">
-                      			Upload Image
-                    		</button>
-                    	</a>
-                  		<a href="{{ route('books.edit', $book) }}">
-                    		<button type="button" class="btn btn-primary">
-                      			Edit
-                    		</button>
-                    	</a>
-						<a href="{{ route('books.destroy', $book) }}" onclick="event.preventDefault();document.getElementById('delete-form').submit();">
-                    		<button type="button" class="btn btn-danger">
-                      			Delete
-                    		</button>
-                    	</a>
-						<a href="{{ route('books.copy.store', $book) }}">
-							<button type="button" class="btn btn-info" onclick="event.preventDefault();document.getElementById('add-copy-form').style.display = 'block';">Add a Copy</button>
-						</a>
-                    </div>
-					<div id="add-copy-form" class="row" style="margin-top: 20px; @if ($errors->any()) display: true @else display: none; @endif ">
-						<form class="form" method="POST" action="{{ route('books.copy.store', $book) }}">
-							@csrf
-							<div class="form-group col-md-8 {{ $errors->has('id') ? 'has-error' : '' }}">
-								<input type="text" autocomplete="off" placeholder="Book UUID" name="id" class="form-control" value="{{ old('id') }}" required>
-					            @if ($errors->has('id'))
-					                <span class="help-block">
-					                    <strong>{{ $errors->first('id') }}</strong>
-					                </span>
-					            @endif
-							</div>
-							<div class="btn-group col-md-4">
-								<a>
-									<button class="btn btn-sm btn-default pull-right" type="button" onclick="document.getElementById('add-copy-form').style.display = 'none';">
-										<i class="fa fa-remove"></i>
-									</button>
-								</a>
-								<a>
-									<button class="btn btn-sm btn-success pull-right" type="submit">
-									Add
-									</button>
-								</a>
-							</div>
-						</form>
-					</div>
-                    <p class="text-danger">
-		                @if ($errors->has('avatar'))
-	                        <strong>{{ $errors->first('avatar') }}</strong>
-		                @endif
-	                </p>
+					@if (auth()->user()->role === App\Helpers\Constant::ADMIN)
+						<div class="btn-group text-center">
+							<a href="{{ route('books.upload', $book) }}">
+								<button type="button" class="btn btn-warning" onclick="event.preventDefault();document.getElementById('avatar').click();">
+									Upload Image
+								</button>
+							</a>
+							<a href="{{ route('books.edit', $book) }}">
+								<button type="button" class="btn btn-primary">
+									Edit
+								</button>
+							</a>
+							<a href="{{ route('books.destroy', $book) }}" onclick="event.preventDefault();document.getElementById('delete-form').submit();">
+								<button type="button" class="btn btn-danger">
+									Delete
+								</button>
+							</a>
+							<a href="{{ route('books.copy.store', $book) }}">
+								<button type="button" class="btn btn-info" onclick="event.preventDefault();document.getElementById('add-copy-form').style.display = 'block';">Add a Copy</button>
+							</a>
+	                    </div>
+						<div id="add-copy-form" class="row" style="margin-top: 20px; @if ($errors->any()) display: true @else display: none; @endif ">
+							<form class="form" method="POST" action="{{ route('books.copy.store', $book) }}">
+								@csrf
+								<div class="form-group col-md-8 {{ $errors->has('id') ? 'has-error' : '' }}">
+									<input type="text" autocomplete="off" placeholder="Book UUID" name="id" class="form-control" value="{{ old('id') }}" required>
+						            @if ($errors->has('id'))
+						                <span class="help-block">
+						                    <strong>{{ $errors->first('id') }}</strong>
+						                </span>
+						            @endif
+								</div>
+								<div class="btn-group col-md-4">
+									<a>
+										<button class="btn btn-sm btn-default pull-right" type="button" onclick="document.getElementById('add-copy-form').style.display = 'none';">
+											<i class="fa fa-remove"></i>
+										</button>
+									</a>
+									<a>
+										<button class="btn btn-sm btn-success pull-right" type="submit">
+										Add
+										</button>
+									</a>
+								</div>
+							</form>
+						</div>
+	                    <p class="text-danger">
+			                @if ($errors->has('avatar'))
+		                        <strong>{{ $errors->first('avatar') }}</strong>
+			                @endif
+		                </p>
+		                <div style="display: none;">
+						    <form id="upload-form" method="POST" enctype="multipart/form-data" action="{{ route('books.upload', $book) }}">
+								@csrf
+						        <input type="file" name="avatar" id="avatar" accept="image/*" onchange="event.preventDefault();document.getElementById('upload-form').submit();">
+							</form>
+							<form id="delete-form" method="POST" action="{{ route('books.destroy', $book) }}">
+								@csrf
+								@method('DELETE')
+							</form>
+						</div>
+	                @endif
 				</div>
 			</div>
 			<div class="box box-primary">
@@ -142,19 +154,23 @@
 							<th>Date Added</th>
 						</tr>
 						@forelse($bookCopies as $bookCopy)
-						<tr>
-							<td><a href="{{ route('book-copies.show', $bookCopy) }} ">{{ $bookCopy->id }}</a></td>
-							<td>
-								<span class="badge bg-{{ $bookCopy->available ? 'green' : 'red' }}">
-								{{ $bookCopy->available ? 'Available' : 'Unavailable'}}
-							</span>
-							</td>
-							<td>{{ date('d F, Y', strtotime($bookCopy->created_at)) }}</td>
-						</tr>
+							<tr>
+								<td>
+									<a href="{{ route('book-copies.show', $bookCopy) }} ">
+										{{ $bookCopy->id }}
+									</a>
+								</td>
+								<td>
+									<span class="badge bg-{{ $bookCopy->available ? 'green' : 'red' }}">
+										{{ $bookCopy->available ? 'Available' : 'Unavailable'}}
+									</span>
+								</td>
+								<td>{{ date('d F, Y', strtotime($bookCopy->created_at)) }}</td>
+							</tr>
 						@empty
-						<tr>
-							<td colspan="2">No books found.</td>
-						</tr>
+							<tr>
+								<td colspan="3">No books found.</td>
+							</tr>
 						@endforelse
 					</table>
 					<div class="box-footer clearfix">
@@ -165,17 +181,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
-
-	<div style="display: none;">
-	    <form id="upload-form" method="POST" enctype="multipart/form-data" action="{{ route('books.upload', $book) }}">
-			@csrf
-	        <input type="file" name="avatar" id="avatar" accept="image/*" onchange="event.preventDefault();document.getElementById('upload-form').submit();">
-		</form>
-		<form id="delete-form" method="POST" action="{{ route('books.destroy', $book) }}">
-			@csrf
-			@method('DELETE')
-		</form>
 	</div>
 </section>
 @endsection

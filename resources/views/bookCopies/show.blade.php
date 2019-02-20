@@ -46,39 +46,41 @@
 							</span>
 						</li>
 					</ul>
-					<div class="btn-group text-center">
-                  		<a href="{{ route('book-copies.update', $bookCopy) }} ">
-                    		<button type="button" class="btn btn-primary" onclick="event.preventDefault();document.getElementById('edit-copy-form').style.display = 'block';">
-                      			Edit
-                    		</button>
-                    	</a>
-                    </div>
-                    <div id="edit-copy-form" class="row" style="margin-top: 20px; @if ($errors->has('id')) display: true @else display: none; @endif ">
-                    	<form class="form" method="POST" action="{{ route('book-copies.update', $bookCopy) }} ">
-                    		@csrf
-                    		@method('PUT')
-                    		<div class="form-group col-md-8 {{ $errors->has('id') ? 'has-error' : '' }}">
-								<input type="text" autocomplete="off" placeholder="Book copy UUID" name="id" class="form-control" value="{{ old('id') ?? $bookCopy->id }}" required>
-					            @if ($errors->has('id'))
-					                <span class="help-block">
-					                    <strong>{{ $errors->first('id') }}</strong>
-					                </span>
-					            @endif
-							</div>
-							<div class="btn-group col-md-4">
-								<a>
-									<button class="btn btn-sm btn-default pull-right" type="button" onclick="document.getElementById('edit-copy-form').style.display = 'none';">
-										<i class="fa fa-remove"></i>
-									</button>
-								</a>
-								<a>
-									<button class="btn btn-sm btn-success pull-right" type="submit">
-									Change
-									</button>
-								</a>
-							</div>
-                    	</form>
-                    </div>
+					@if (auth()->user()->role === App\Helpers\Constant::ADMIN)
+						<div class="btn-group text-center">
+	                  		<a href="{{ route('book-copies.update', $bookCopy) }} ">
+	                    		<button type="button" class="btn btn-primary" onclick="event.preventDefault();document.getElementById('edit-copy-form').style.display = 'block';">
+									Edit Copy ID
+	                    		</button>
+	                    	</a>
+	                    </div>
+	                    <div id="edit-copy-form" class="row" style="margin-top: 20px; @if ($errors->has('id')) display: true @else display: none; @endif ">
+	                    	<form class="form" method="POST" action="{{ route('book-copies.update', $bookCopy) }} ">
+	                    		@csrf
+	                    		@method('PUT')
+	                    		<div class="form-group col-md-8 {{ $errors->has('id') ? 'has-error' : '' }}">
+									<input type="text" autocomplete="off" placeholder="Book copy UUID" name="id" class="form-control" value="{{ old('id') ?? $bookCopy->id }}" required>
+						            @if ($errors->has('id'))
+						                <span class="help-block">
+						                    <strong>{{ $errors->first('id') }}</strong>
+						                </span>
+						            @endif
+								</div>
+								<div class="btn-group col-md-4">
+									<a>
+										<button class="btn btn-sm btn-default pull-right" type="button" onclick="document.getElementById('edit-copy-form').style.display = 'none';">
+											<i class="fa fa-remove"></i>
+										</button>
+									</a>
+									<a>
+										<button class="btn btn-sm btn-success pull-right" type="submit">
+											Change
+										</button>
+									</a>
+								</div>
+	                    	</form>
+	                    </div>
+                    @endif
 				</div>
 			</div>
 		</div>
@@ -95,15 +97,15 @@
 							<th>Returned date/time</th>
 						</tr>
 						@forelse($users as $user)
-						<tr>
-							<td><a href="{{ route('users.show', $user) }}">{{ $user->name }}</a></td>
-							<td>{{ date('d F, Y / H:i:s', strtotime($user->pivot->borrowed_date)) }}</td>
-							<td>@if($user->pivot->returned_date == null) Hasn't been returned yet. @else{{ date('d F, Y / H:i:s', strtotime($user->pivot->returned_date)) }}@endif</td>
-						</tr>
+							<tr>
+								<td><a href="{{ route('users.show', $user) }}">{{ $user->name }}</a></td>
+								<td>{{ date('d F, Y / H:i:s', strtotime($user->pivot->borrowed_date)) }}</td>
+								<td>@if($user->pivot->returned_date == null) Not returned. @else{{ date('d F, Y / H:i:s', strtotime($user->pivot->returned_date)) }}@endif</td>
+							</tr>
 						@empty
-						<tr>
-							<td colspan="3"> This book hasn't been borrowed by anyone yet.</td>
-						</tr>
+							<tr>
+								<td colspan="3"> This book hasn't been borrowed by anyone yet.</td>
+							</tr>
 						@endforelse
 					</table>
 				</div>

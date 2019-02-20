@@ -19,33 +19,33 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body class="hold-transition skin-blue sidebar-collapse sidebar-mini">
-<div class="wrapper">
+  <div class="wrapper">
     <header class="main-header">
         @include('layouts.header')
     </header>
 
     <aside class="main-sidebar">
         <section class="sidebar" style="height: auto;">
-            @include('layouts.sidebar')
+          @include('layouts.sidebar')
         </section>
     </aside>
 
     <div class="content-wrapper">
         <section class="content-header">
-            @yield('breadcrumb')
+          @yield('breadcrumb')
         </section>
         <section class="content">
-            @yield('content')
+          @yield('content')
         </section>
     </div>
 
     <footer class="main-footer">
-        Copyright © {{ date('Y') }} {{ config('app.name') }}. All rights reserved.
+      Copyright © {{ date('Y') }} {{ config('app.name') }}. All rights reserved.
     </footer>
-</div>
-<script src="{{ asset('js/jquery.min.js') }}"></script>
-<script src="{{ asset('js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('js/AdminLTE.min.js') }}"></script>
-@yield('scripts')
+  </div>
+  <script src="{{ asset('js/jquery.min.js') }}"></script>
+  <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+  <script src="{{ asset('js/AdminLTE.min.js') }}"></script>
+  @yield('scripts')
 </body>
 </html>

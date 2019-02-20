@@ -8,7 +8,17 @@ use Illuminate\Http\Request;
 class BookCopyController extends Controller
 {
     /**
-     * Display the specified book copy.
+     * Instantiate a new BookCopyController instance.
+     *
+     *@return void
+     */
+    public function __construct()
+    {
+        $this->middleware('admin')->except(['index','show']);
+    }
+
+    /**
+     * Show the specified book copy.
      *
      * @param  \App\Model\BookCopy  $bookCopy
      * @return \Illuminate\View\View

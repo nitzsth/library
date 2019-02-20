@@ -32,7 +32,8 @@
                 <select  name='author_id[]' multiple class="form-control">
                     @foreach($authors as $author)
                         <option value="{{ $author->id }}" @if(in_array($author->id, $book->authors->pluck('id')->toArray())) selected @endif >
-                            {{ $author->name }}</option>
+                            {{ $author->name }}
+                        </option>
                     @endforeach
                 </select>
             </div>

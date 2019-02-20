@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-|Authors|Edit
+| Authors | Edit
 @endsection
 
 @section('breadcrumb')

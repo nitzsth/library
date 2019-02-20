@@ -7,11 +7,13 @@
 @section('breadcrumb')
 <h1>Users<small>{{ $user->name }}</small></h1>
 
-<ol class="breadcrumb">
-    <li><a href="{{ route('dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="{{ route('users.index') }}">Users</a></li>
-    <li><a href="javascript:">{{ $user->name }}</a></li>
-</ol>
+@if (auth()->user()->role === App\Helpers\Constant::ADMIN)
+	<ol class="breadcrumb">
+	    <li><a href="{{ route('dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
+	    <li><a href="{{ route('users.index') }}">Users</a></li>
+	    <li><a href="javascript:">{{ $user->name }}</a></li>
+	</ol>
+@endif
 @endsection
 
 @section('content')
@@ -36,6 +38,7 @@
 							<b>Member since</b><span class="pull-right">{{ date('d F, Y', strtotime($user->created_at)) }}</span>
 						</li>
 					</ul>
+					@if (auth()->user()->role === App\Helpers\Constant::ADMIN)
 					<div class="btn-group text-center">
                   		<a href="{{ route('users.upload', $user) }}">
                     		<button type="button" class="btn btn-warning" onclick="event.preventDefault();document.getElementById('avatar').click();">
@@ -55,7 +58,7 @@
 						<a href="{{ route('users.borrow', $user) }}">
 							<button type="button" class="btn btn-info" onclick="event.preventDefault();document.getElementById('borrow-form').style.display = 'block';">Borrow a Book</button>
 						</a>
-                    </div>
+					</div>
                     <div id="borrow-form" class="row" style="margin-top: 20px; @if ($errors->has('book_copy_id')) display: true @else display: none; @endif ">
 						@if($counts >= App\Helpers\Constant::MAX_BOOK_BORROW_LIMIT)
 							<div class="box-body">
@@ -98,6 +101,7 @@
 	                        <strong>{{ $errors->first('avatar') }}</strong>
 		                @endif
 	                </p>
+                    @endif
 				</div>
 			</div>
 		</div>
@@ -127,11 +131,12 @@
 								<td><a href="{{ route('books.show', $bookCopy->book) }}">{{ $bookCopy->book->name }}</a></td>
 								<td>{{ date('d F, Y / H:i:s', strtotime($bookCopy->pivot->borrowed_date)) }}</td>
 								<td>@if($bookCopy->pivot->returned_date == null)
-										<a href="{{ route('users.books.copy.return', [$user, $bookCopy]) }} ">
-											<button type="button" class="btn btn-xs btn-success" onclick="event.preventDefault();document.getElementById('book-return-form-{{ $bookCopy->id }}').style.display = 'block';"><i class="fa fa-repeat margin-r-5"></i><span>Return Book</span>
-											</button>
-										</a>
-										<div id="book-return-form-{{ $bookCopy->id }}" class="row" style="width: 200px; margin: 0px; @if ($errors->has('fine') && old('book_copy_id') === $bookCopy->id) display: true @else display: none; @endif ">
+										@if(auth()->user()->role === App\Helpers\Constant::ADMIN)
+											<a href="{{ route('users.books.copy.return', [$user, $bookCopy]) }} ">
+												<button type="button" class="btn btn-xs btn-success" onclick="event.preventDefault();document.getElementById('book-return-form-{{ $bookCopy->id }}').style.display = 'block';"><i class="fa fa-repeat margin-r-5"></i><span>Return Book</span>
+												</button>
+											</a>
+											<div id="book-return-form-{{ $bookCopy->id }}" class="row" style="width: 200px; margin: 0px; @if ($errors->has('fine') && old('book_copy_id') === $bookCopy->id) display: true @else display: none; @endif ">
 												<form method="POST" action="{{ route('users.books.copy.return', [$user, $bookCopy]) }}">
 													@csrf
 													<div class="form-group {{ $errors->has('fine') && old('book_copy_id') === $bookCopy->id ? 'has-error' : '' }}">
@@ -156,7 +161,9 @@
 														@endif
 													</div>
 												</form>
-										</div>
+											</div>
+											@else Not Returned.
+											@endif
 
 									@else{{ date('d F, Y / H:i:s', strtotime($bookCopy->pivot->returned_date)) }}@endif
 								</td>
