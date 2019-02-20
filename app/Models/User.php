@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -16,7 +16,11 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'avatar', 'email', 'password', 'role',
+        'name',
+        'avatar',
+        'email',
+        'password',
+        'role',
     ];
 
     /**
@@ -25,7 +29,8 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -36,6 +41,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function bookCopies()
     {
         return $this->belongsToMany(BookCopy::class)
-        ->withPivot(['borrowed_date', 'returned_date', 'fine']);
+            ->withPivot([ 'borrowed_date', 'returned_date', 'fine' ]);
     }
 }

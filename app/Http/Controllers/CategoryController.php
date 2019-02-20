@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use App\Http\Requests\CategoryRequest;
-
 
 class CategoryController extends Controller
 {
     /**
      * Instantiate a new CategoryController instance.
      *
-     *@return void
+     * @return void
      */
     public function __construct()
     {
-        $this->middleware('admin')->except(['index','show']);
+        $this->middleware('admin')->except([ 'index', 'show' ]);
     }
 
     /**
@@ -27,7 +26,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::orderBy('name')->paginate('15');
-        
+
         return view('categories.index', compact('categories'));
     }
 
@@ -46,12 +45,13 @@ class CategoryController extends Controller
     /**
      * Store a newly created category in storage.
      *
-     * @param  App\Http\Requests\CategoryRequest  $request
+     * @param  App\Http\Requests\CategoryRequest $request
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CategoryRequest $request)
     {
-        $data = $request->all();
+        $data     = $request->all();
         $category = Category::create($data);
 
         return redirect()->route('categories.show', $category);
@@ -60,12 +60,13 @@ class CategoryController extends Controller
     /**
      * Show the specified category.
      *
-     * @param  \App\Model\Category  $category
+     * @param  \App\Model\Category $category
+     *
      * @return \Illuminate\View\View
      */
     public function show(Category $category)
     {
-        $books = $category->books()->orderBy('name')->paginate(20);
+        $books   = $category->books()->orderBy('name')->paginate(20);
         $authors = $category->authors()->orderBy('name')->paginate(20);
 
         return view('categories.show', compact('category', 'authors', 'books'));
@@ -74,7 +75,8 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified category.
      *
-     * @param  \App\Model\Category  $category
+     * @param  \App\Model\Category $category
+     *
      * @return \Illuminate\View\View
      */
     public function edit(Category $category)
@@ -85,8 +87,9 @@ class CategoryController extends Controller
     /**
      * Update the specified category in storage.
      *
-     * @param  App\Http\Requests\CategoryRequest  $request
-     * @param  \App\Model\Category  $category
+     * @param  App\Http\Requests\CategoryRequest $request
+     * @param  \App\Model\Category               $category
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(CategoryRequest $request, Category $category)
@@ -100,7 +103,8 @@ class CategoryController extends Controller
     /**
      * Remove the specified category from storage.
      *
-     * @param  \App\Model\Category  $category
+     * @param  \App\Model\Category $category
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Category $category)

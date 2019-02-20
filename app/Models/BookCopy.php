@@ -11,7 +11,7 @@ class BookCopy extends Model
      *
      * @var array
      */
-    protected $fillable = ['id'];
+    protected $fillable = [ 'id' ];
 
     /**
      * The attributes that should be casted to native types.
@@ -19,7 +19,7 @@ class BookCopy extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'string'
+        'id' => 'string',
     ];
 
     /**
@@ -39,7 +39,10 @@ class BookCopy extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(User::class)
-        ->withPivot(['borrowed_date', 'returned_date', 'fine']);
+        return $this->belongsToMany(User::class)->withPivot([
+                'borrowed_date',
+                'returned_date',
+                'fine',
+            ]);
     }
 }

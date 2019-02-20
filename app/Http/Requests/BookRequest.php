@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Helpers\Constant;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BookRequest extends FormRequest
@@ -27,19 +26,18 @@ class BookRequest extends FormRequest
         $uniqueIsbn = 'books';
 
         if ($this->method() === 'PUT') {
-        $uniqueIsbn .= ',isbn,' . request('book')->id;
+            $uniqueIsbn .= ',isbn,' . request('book')->id;
         }
 
         return [
-            'name' => 'required|string|min:3|max:50',
-            'isbn' => "required|unique:$uniqueIsbn",
-            'pages' => 'required|integer|min:1',
-            'edition' => 'required|string',
-            'publisher' =>'required|string|min:3',
-            'author_id' => 'required',
-            'author_*' => 'required|integer|exists:authors,id',
+            'name'        => 'required|string|min:3|max:50',
+            'isbn'        => "required|unique:$uniqueIsbn",
+            'pages'       => 'required|integer|min:1',
+            'edition'     => 'required|string',
+            'publisher'   => 'required|string|min:3',
+            'author_id'   => 'required',
+            'author_*'    => 'required|integer|exists:authors,id',
             'description' => 'required',
-
         ];
     }
 }

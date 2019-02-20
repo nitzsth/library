@@ -1,33 +1,35 @@
 @extends('public.app')
 
 @section('title')
-| Password Reset
+  | Password Reset
 @endsection
 
 @section('content')
-<p class="login-box-msg">Reset Password</p>
+  <p class="login-box-msg">Reset Password</p>
 
-    @if (session('status'))
-        <div class="alert alert-success" role="alert">
-            {{ session('status') }}
-        </div>
-    @endif
+  @if (session('status'))
+    <div class="alert alert-success" role="alert">
+      {{ session('status') }}
+    </div>
+  @endif
 
-<form action="{{ route('password.email') }}" method="post">
+  <form action="{{ route('password.email') }}" method="post">
     @csrf
-    
+
     <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
-        <input type="text" name="email" class="form-control" placeholder="Email">
-        @if ($errors->has('email'))
-            <span class="help-block">
+      <input type="text" name="email" class="form-control" placeholder="Email">
+      @if ($errors->has('email'))
+        <span class="help-block">
                 <strong>{{ $errors->first('email') }}</strong>
             </span>
-        @endif
+      @endif
     </div>
     <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-block btn-flat">Send Password Reset Link</button>
+      <button type="submit" class="btn btn-primary btn-block btn-flat">Send
+        Password Reset Link
+      </button>
     </div>
-</form>
+  </form>
 
-<a href="{{ route('login') }}">Go to Login</a>
+  <a href="{{ route('login') }}">Go to Login</a>
 @endsection

@@ -12,10 +12,16 @@ class Book extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'isbn', 'avatar', 'pages', 'description', 'edition', 'publisher',
+        'name',
+        'isbn',
+        'avatar',
+        'pages',
+        'description',
+        'edition',
+        'publisher',
     ];
 
-     /**
+    /**
      * The authors that belong to the book.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

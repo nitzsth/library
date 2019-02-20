@@ -2,8 +2,8 @@
 
 use App\Helpers\Constant;
 use App\Models\User;
-use Illuminate\Database\Seeder;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
 {
@@ -15,11 +15,11 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         app(User::class)->updateOrInsert([
-        	'email' => 'nitzsth2@gmail.com',
+            'email' => 'nitzsth2@gmail.com',
         ], [
-            'name' => 'Nitesh K. Yagol',
-            'password' => bcrypt('shiva108'),
-            'role' => Constant::ADMIN,
+            'name'       => 'Nitesh K. Yagol',
+            'password'   => bcrypt('shiva108'),
+            'role'       => Constant::ADMIN,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);

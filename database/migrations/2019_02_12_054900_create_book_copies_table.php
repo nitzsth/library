@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateBookCopiesTable extends Migration
 {
@@ -13,12 +13,16 @@ class CreateBookCopiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('book_copies', function (Blueprint $table) {
+        Schema::create('book_copies', function (Blueprint $table)
+        {
             $table->string('id')->primary();
             $table->integer('book_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
+            $table->foreign('book_id')
+                ->references('id')
+                ->on('books')
+                ->onDelete('cascade');
         });
     }
 
