@@ -32,7 +32,7 @@ Route::middleware([ 'auth', 'verified' ])->group(function ()
 
     Route::resource('categories', 'CategoryController');
 
-    Route::view('/', 'dashboard')->name('dashboard');
+    Route::get('/', 'DashboardController@show')->name('dashboard');
 
     Route::post('users/{user}/book-copies/{book_copy}/return', 'UserController@bookCopyReturn')
         ->name('users.books.copy.return');

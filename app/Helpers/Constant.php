@@ -33,6 +33,11 @@ class Constant
     const MAX_BOOK_BORROW_LIMIT = 5;
 
     /**
+     * Number of latest books display constant
+     */
+    const SHOW_NUMBER_OF_LATEST_BOOK = 5;
+
+    /**
      * Get an array of all available roles
      *
      * @return array
