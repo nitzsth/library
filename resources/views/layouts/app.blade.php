@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
   <link rel="stylesheet" href="{{ asset('css/AdminLTE.min.css') }}">
   <link rel="stylesheet" href="{{ asset('css/skin.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/pace.min.css') }}">
   @yield('styles')
     <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -47,6 +48,7 @@
 <script src="{{ asset('js/jquery.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('js/AdminLTE.min.js') }}"></script>
+<script src="{{ asset('js/pace.min.js') }}"></script>
 @yield('scripts')
 </body>
 </html>
