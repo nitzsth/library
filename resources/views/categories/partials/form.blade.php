@@ -16,7 +16,7 @@
              placeholder="Enter Category Name"
              value="{{ old('name') ?? $category->name }}"
              name="name"
-             required>
+             required v-model="name">
       @if ($errors->has('name'))
         <span class="help-block">
                     <strong>{{ $errors->first('name') }}</strong>
@@ -30,3 +30,4 @@
     </div>
   </div>
 </form>
+

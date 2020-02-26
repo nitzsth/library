@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('styles')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css.map">
+  @endsection
+
 @section('title')
   | Books | {{ $book->name }}
 @endsection
@@ -10,7 +14,9 @@
   </h1>
 
   <ol class="breadcrumb">
-    <li><a href="{{ route('dashboard') }}"><i class="fa fa-dashboard"></i> Home</a>
+    <li>
+      <a href="{{ route('dashboard') }}"><i class="fa fa-dashboard"></i> Home
+      </a>
     </li>
     <li><a href="{{ route('books.index') }}">Books</a></li>
     <li><a href="javascript:">{{ $book->name }}</a></li>
@@ -23,9 +29,12 @@
       <div class="col-md-4">
         <div class="box box-primary">
           <div class="box-body box-profile">
-            <img class="profile-user-img img-responsive"
-                 src="{{ $book->avatar ?: asset('img/book-placeholder.png') }}"
-                 alt="{{ $book->name }}">
+            <div id="preview">
+              <modal v-if="showModal" @close="showImage = false" v-model="image"></modal>
+            <button class="profile-user-img img-responsive" @click="showModal = true">
+              <img class="profile-user-img img-responsive" src="{{ $book->avatar ?: asset('img/book-placeholder.png') }}"
+                 alt="{{ $book->name }}"></button>
+            </div>
             <h3 class="profile-bookname text-center">{{ $book->name }}</h3>
             <ul class="list-group list-group-unbordered">
               <li class="list-group-item">
@@ -204,7 +213,7 @@
 										{{ $bookCopy->available ? 'Available' : 'Unavailable'}}
 									</span>
                   </td>
-                  <td>{{ date('d F, Y', strtotime($bookCopy->created_at)) }}</td>
+                  <td>{{ date('l, d F, Y', strtotime($bookCopy->created_at)) }}</td>
                 </tr>
               @empty
                 <tr>
@@ -221,5 +230,10 @@
         </div>
       </div>
     </div>
+    @section('scripts')
+      <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+      <script src="{{ asset('js/main.js') }}"></script>
+    @endsection
   </section>
 @endsection

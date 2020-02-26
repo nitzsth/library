@@ -53,6 +53,7 @@ class CategoryController extends Controller
     {
         $data     = $request->all();
         $category = Category::create($data);
+        request()->session()->flash('alert-success', 'Category was successful added!');
 
         return redirect()->route('categories.show', $category);
     }
@@ -60,7 +61,7 @@ class CategoryController extends Controller
     /**
      * Show the specified category.
      *
-     * @param  \App\Model\Category $category
+     * @param  \App\Models\Category $category
      *
      * @return \Illuminate\View\View
      */
@@ -75,7 +76,7 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified category.
      *
-     * @param  \App\Model\Category $category
+     * @param  \App\Models\Category $category
      *
      * @return \Illuminate\View\View
      */
@@ -88,7 +89,7 @@ class CategoryController extends Controller
      * Update the specified category in storage.
      *
      * @param  App\Http\Requests\CategoryRequest $request
-     * @param  \App\Model\Category               $category
+     * @param  \App\Models\Category               $category
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -103,9 +104,10 @@ class CategoryController extends Controller
     /**
      * Remove the specified category from storage.
      *
-     * @param  \App\Model\Category $category
+     * @param  \App\Models\Category $category
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function destroy(Category $category)
     {

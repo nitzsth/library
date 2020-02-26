@@ -21,10 +21,17 @@
   <section class="content">
     <div class="row text">
       <div class="col-md-6 col-md-offset-3">
-        <div class="box box-primary">
+        <div class="box box-primary" id="category">
           @include('categories.partials.form', ['method' => 'POST', 'action' => route('categories.store')])
         </div>
       </div>
     </div>
   </section>
 @stop
+
+@section('scripts')
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+  <script src="{{ asset('js/category.js') }}"></script>
+
+@endsection
