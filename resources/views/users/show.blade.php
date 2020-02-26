@@ -45,7 +45,7 @@
               </li>
               <li class="list-group-item">
                 <b>Member since</b>
-                <span class="pull-right">{{ date('d F, Y', strtotime($user->created_at)) }}</span>
+                <span class="pull-right">{{ date('l, d F, Y', strtotime($user->created_at)) }}</span>
               </li>
             </ul>
             @if (auth()->user()->role === App\Helpers\Constant::ADMIN)
@@ -166,7 +166,7 @@
                   <td>
                     <a href="{{ route('books.show', $bookCopy->book) }}">{{ $bookCopy->book->name }}</a>
                   </td>
-                  <td>{{ date('d F, Y / H:i:s', strtotime($bookCopy->pivot->borrowed_date)) }}</td>
+                  <td>{{ date('l, d F, Y / H:i:s', strtotime($bookCopy->pivot->borrowed_date)) }}</td>
                   <td>@if($bookCopy->pivot->returned_date == null)
                       @if(auth()->user()->role === App\Helpers\Constant::ADMIN)
                         <a href="{{ route('users.books.copy.return', [$user, $bookCopy]) }} ">
@@ -219,7 +219,7 @@
                       @else Not Returned.
                       @endif
 
-                    @else{{ date('d F, Y / H:i:s', strtotime($bookCopy->pivot->returned_date)) }}@endif
+                    @else{{ date('l, d F, Y / H:i:s', strtotime($bookCopy->pivot->returned_date)) }}@endif
                   </td>
                   <td>Rs. {{ $bookCopy->pivot->fine }}/-</td>
                 </tr>

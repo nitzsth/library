@@ -23,8 +23,13 @@ class CategoryRequest extends FormRequest
      */
     public function rules(): array
     {
+        $uniqueName = 'categories';
+
+        if ($this->method() === 'PUT') {
+            $uniqueName .= ',name,' . request('category')->id;
+        }
         return [
-            'name' => 'required|string|min:3|max:25',
+            'name' => "required|string|unique:$uniqueName|min:3|max:25",
         ];
     }
 }

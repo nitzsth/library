@@ -49,7 +49,7 @@ class AuthorController extends Controller
     /**
      * Store a newly created author in storage.
      *
-     * @param  App\Http\Requests\AuthorRequest $request
+     * @param AuthorRequest $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -72,7 +72,7 @@ class AuthorController extends Controller
     /**
      * Show the specified author.
      *
-     * @param  \App\Model\Author $author
+     * @param Author $author
      *
      * @return \Illuminate\View\View
      */
@@ -84,7 +84,7 @@ class AuthorController extends Controller
     /**
      * Show the form for editing the specified author.
      *
-     * @param  \App\Model\Author $author
+     * @param Author $author
      *
      * @return \Illuminate\View\View
      */
@@ -98,8 +98,8 @@ class AuthorController extends Controller
     /**
      * Update the specified author in storage.
      *
-     * @param  App\Http\Requests\AuthorRequest $request
-     * @param  \App\Model\Author               $author
+     * @param AuthorRequest $request
+     * @param Author        $author
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -117,6 +117,7 @@ class AuthorController extends Controller
      * @param  \App\Model\Author $author
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function destroy(Author $author)
     {
@@ -132,6 +133,8 @@ class AuthorController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param  \App\Model\Author       $author
      * q@return \Illuminate\Http\RedirectResponse
+     *
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function upload(Request $request, Author $author)
     {

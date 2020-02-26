@@ -4,6 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class BookCopy
+ *
+ * @property integer id
+ * @property string  borrowed_date
+ * @package App\Models
+ */
 class BookCopy extends Model
 {
     /**
@@ -40,9 +47,9 @@ class BookCopy extends Model
     public function users()
     {
         return $this->belongsToMany(User::class)->withPivot([
-                'borrowed_date',
-                'returned_date',
-                'fine',
-            ]);
+            'borrowed_date',
+            'returned_date',
+            'fine',
+        ]);
     }
 }

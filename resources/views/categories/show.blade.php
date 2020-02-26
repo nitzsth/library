@@ -23,11 +23,11 @@
       @if (auth()->user()->role === App\Helpers\Constant::ADMIN)
         <div class="btn-group pull-right">
           <a href="{{ route('categories.edit', $category) }}">
-            <button class="btn btn-warning"><i class="fa fa-edit"></i></button>
+            <button class="btn btn-warning" title="Edit this Category"><i class="fa fa-edit"></i></button>
           </a>
           <a href="{{ route('categories.destroy', $category) }}"
              onclick="event.preventDefault();document.getElementById('delete-form').submit();">
-            <button class="btn btn-danger"><i class="fa fa-remove"></i></button>
+            <button class="btn btn-danger" title="Delete this Category"><i class="fa fa-remove"></i></button>
           </a>
         </div>
         <div style="display: none;">

@@ -50,7 +50,7 @@ class UserController extends Controller
     /**
      * Store a newly created user in storage.
      *
-     * @param  App\Http\Requests\UserRequest $request
+     * @param UserRequest $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -85,7 +85,7 @@ class UserController extends Controller
         }
 
         $bookCopies = $user->bookCopies()
-            ->orderBy('returned_date')
+            ->orderBy('returned_date', config('database.default') === 'mysql' ? 'asc' : 'desc')
             ->orderBy('borrowed_date', 'desc')
             ->paginate('10');
 
@@ -129,8 +129,8 @@ class UserController extends Controller
     /**
      * Update the specified user in storage.
      *
-     * @param  App\Http\Requests\UserRequest $request
-     * @param  \App\Models\User              $user
+     * @param UserRequest $request
+     * @param User        $user
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -155,6 +155,7 @@ class UserController extends Controller
      * @param  \App\Models\User $user
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function destroy(User $user)
     {
@@ -171,6 +172,7 @@ class UserController extends Controller
      * @param  \App\Models\User        $user
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function upload(Request $request, User $user)
     {
@@ -194,6 +196,7 @@ class UserController extends Controller
      * @param  \App\Models\User        $user
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function borrow(Request $request, User $user)
     {
@@ -213,19 +216,20 @@ class UserController extends Controller
         ], $message);
 
         $user->bookCopies()
-            ->attach($request->book_copy_id, [ 'borrowed_date' => now() ]);
+            ->attach($request['book_copy_id'], [ 'borrowed_date' => now() ]);
 
         return redirect()->route('users.show', $user);
     }
 
     /**
-     * Return the borrowed bookcopy along with fine payment if any.
+     * Return the borrowed book copy along with fine payment if any.
      *
      * @param \Illuminate\Http\Request $request
      * @param  \App\Models\User        $user
      * @param  \App\Models\BookCopy    $bookCopy
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function bookCopyReturn(
         Request $request,
@@ -241,10 +245,9 @@ class UserController extends Controller
         ]);
 
         $user->bookCopies()
-            ->whereNull('returned_date')
-            ->where('book_copy_id', $bookCopy->id)
-            ->update([
-                'fine'          => $request->fine,
+            ->wherePivot('returned_date', null)
+            ->updateExistingPivot($bookCopy->id, [
+                'fine'          => $request['fine'],
                 'returned_date' => now(),
             ]);
 

@@ -13,10 +13,10 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" style="background-image: url({{ asset('background.jpg') }});">
 <div class="login-box">
   <div class="login-logo">
-    <b>Library</b>
+    <b style="color:white;">Library</b>
   </div>
   <div class="login-box-body">
     @yield('content')

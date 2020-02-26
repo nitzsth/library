@@ -45,7 +45,7 @@
               </td>
               <td>{{ $user->email }}</td>
               <td>{{ ucwords($user->role) }}</td>
-              <td>{{ date('d F, Y', strtotime($user->created_at)) }}</td>
+              <td>{{ date('l, d F, Y', strtotime($user->created_at)) }}</td>
             </tr>
           @empty
             <tr>

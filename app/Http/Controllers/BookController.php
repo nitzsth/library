@@ -51,7 +51,7 @@ class BookController extends Controller
     /**
      * Store a newly created book in storage.
      *
-     * @param  App\Http\Requests\BookRequest $request
+     * @param BookRequest $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -74,7 +74,7 @@ class BookController extends Controller
     /**
      * Show the specified book.
      *
-     * @param  \App\Model\Book $book
+     * @param Book $book
      *
      * @return \Illuminate\View\View
      */
@@ -96,7 +96,7 @@ class BookController extends Controller
     /**
      * Show the form for editing the specified book.
      *
-     * @param  \App\Model\Book $book
+     * @param Book $book
      *
      * @return \Illuminate\View\View
      */
@@ -111,8 +111,8 @@ class BookController extends Controller
     /**
      * Update the specified book in storage.
      *
-     * @param  App\Http\Requests\BookRequest $request
-     * @param  \App\Model\Book               $book
+     * @param BookRequest $request
+     * @param Book        $book
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -133,9 +133,10 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Model\Book $book
+     * @param Book $book
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function destroy(Book $book)
     {
@@ -149,8 +150,11 @@ class BookController extends Controller
      * any.
      *
      * @param \Illuminate\Http\Request $request
-     * @param  \App\Model\Book         $book
+     * @param Book                     $book
      * q@return \Illuminate\Http\RedirectResponse
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function upload(Request $request, Book $book)
     {
@@ -171,8 +175,11 @@ class BookController extends Controller
      * Store the bookCopy id of a specified book.
      *
      * @param \Illuminate\Http\Request $request
-     * @param  \App\Model\Book         $book
+     * @param Book                     $book
      * q@return \Illuminate\Http\RedirectResponse
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function addCopy(Request $request, Book $book)
     {

@@ -20,7 +20,7 @@ class BookCopyController extends Controller
     /**
      * Show the specified book copy.
      *
-     * @param  \App\Model\BookCopy $bookCopy
+     * @param BookCopy $bookCopy
      *
      * @return \Illuminate\View\View
      */
@@ -28,7 +28,7 @@ class BookCopyController extends Controller
     {
         $available = true;
         $users     = $bookCopy->users()
-            ->orderBy('returned_date')
+            ->orderBy('returned_date', config('database.default') === 'mysql' ? 'asc' : 'desc')
             ->orderBy('borrowed_date', 'desc')
             ->get();
 
@@ -42,10 +42,11 @@ class BookCopyController extends Controller
     /**
      * Update the id of specified book copy in storage.
      *
-     * @param  App\Http\Requests\Request $request
-     * @param  \App\Model\BookCopy       $bookCopy
+     * @param Request  $request
+     * @param BookCopy $bookCopy
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, BookCopy $bookCopy)
     {

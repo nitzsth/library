@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
   <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
   <link rel="stylesheet" href="{{ asset('css/AdminLTE.min.css') }}">
+  <link rel="icon" href="{{ asset('library.ico') }}">
   <link rel="stylesheet" href="{{ asset('css/skin.min.css') }}">
   <link rel="stylesheet" href="{{ asset('css/pace.min.css') }}">
   @yield('styles')
@@ -42,7 +43,7 @@
   </div>
 
   <footer class="main-footer">
-    Copyright © {{ date('Y') }} {{ config('app.name') }}. All rights reserved.
+    © Copyright {{ date('Y') }} {{ config('app.name') }}. All rights reserved.
   </footer>
 </div>
 <script src="{{ asset('js/jquery.min.js') }}"></script>
